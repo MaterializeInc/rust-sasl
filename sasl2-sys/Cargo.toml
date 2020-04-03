@@ -1,0 +1,28 @@
+[package]
+name = "sasl2-sys"
+authors = ["Materialize, Inc."]
+description = "Bindings for Cyrus SASL."
+documentation = "https://docs.rs/sasl2-sys"
+repository = "https://github.com/MaterializeInc/rust-sasl"
+license = "Apache-2.0"
+categories = ["external-ffi-bindings"]
+version = "0.1.0"
+edition = "2018"
+links = "sasl2"
+
+[lib]
+
+[dependencies]
+libc = "0.2.68"
+
+[dev-dependencies]
+version-sync = "0.9"
+
+[build-dependencies]
+cc = "1.0.50"
+duct = "0.13.3"
+pkg-config = { version = "0.3.17", optional = true }
+
+[features]
+default = ["pkg-config"]
+vendored = []
