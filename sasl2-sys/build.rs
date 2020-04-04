@@ -54,10 +54,6 @@ fn build_sasl(metadata: &Metadata) {
         cmd!("cp", "-R", "sasl2", &src_dir).run().unwrap();
     }
 
-    if !src_dir.join("configure").exists() {
-        cmd!("autoreconf", "-ivf").dir(&src_dir).run().unwrap();
-    }
-
     let install_dir = metadata.out_dir.join("install");
     let mut configure_args = vec![
         format!("--prefix={}", install_dir.display()),
