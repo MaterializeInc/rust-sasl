@@ -61,6 +61,7 @@ pub mod sasl;
 pub mod saslplug;
 pub mod saslutil;
 
+/// Almagamates exports from all other modules.
 pub mod prelude {
     pub use super::hmac_md5::*;
     pub use super::md5::*;
