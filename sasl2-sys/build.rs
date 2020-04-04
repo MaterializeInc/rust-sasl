@@ -51,11 +51,9 @@ fn build_sasl(metadata: &Metadata) {
         // globally shared, but sasl doesn't seem to support out-of-tree builds.
         // Work around the issue by copying sasl into OUT_DIR, and building
         // inside of *that* tree.
-        cmd!("cp", "-R", "sasl2", &src_dir).run().unwrap();
-    }
-
-    if !src_dir.join("configure").exists() {
-        cmd!("autoreconf", "-ivf").dir(&src_dir).run().unwrap();
+        cmd!("cp", "-R", "sasl2", &src_dir)
+            .run()
+            .expect("failed making copy of sasl2 tree");
     }
 
     let install_dir = metadata.out_dir.join("install");
@@ -72,6 +70,7 @@ fn build_sasl(metadata: &Metadata) {
         "--disable-gssapi".into(),
         "--disable-plain".into(),
         "--disable-anon".into(),
+        "--with-pic".into(),
     ];
     if metadata.target.contains("darwin") {
         configure_args.push("--disable-macos-framework".into());
@@ -82,7 +81,7 @@ fn build_sasl(metadata: &Metadata) {
     cmd(src_dir.join("configure"), &configure_args)
         .dir(&src_dir)
         .run()
-        .unwrap();
+        .expect("configure failed");
 
     let mut make_flags = OsString::new();
     let mut make_args = vec![];
@@ -111,7 +110,7 @@ fn build_sasl(metadata: &Metadata) {
         .dir(src_dir)
         .env("MAKEFLAGS", make_flags)
         .run()
-        .unwrap();
+        .expect("make failed");
 
     validate_headers(&[install_dir.join("include")]);
 

@@ -1,3 +1,0 @@
-[submodule "sasl2-sys/sasl2"]
-	path = sasl2-sys/sasl2
-	url = https://github.com/cyrusimap/cyrus-sasl.git

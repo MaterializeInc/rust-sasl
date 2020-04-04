@@ -14,7 +14,7 @@
 // limitations under the License.
 
 #![allow(non_camel_case_types, non_upper_case_globals, non_snake_case)]
-#![doc(html_root_url = "https://docs.rs/sasl2-sys/0.1.1")]
+#![doc(html_root_url = "https://docs.rs/sasl2-sys/0.1.2")]
 
 //! Bindings to Cyrus SASL.
 //!
@@ -61,6 +61,7 @@ pub mod sasl;
 pub mod saslplug;
 pub mod saslutil;
 
+/// Almagamates exports from all other modules.
 pub mod prelude {
     pub use super::hmac_md5::*;
     pub use super::md5::*;
