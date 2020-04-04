@@ -72,6 +72,7 @@ fn build_sasl(metadata: &Metadata) {
         "--disable-gssapi".into(),
         "--disable-plain".into(),
         "--disable-anon".into(),
+        "--with-pic".into(),
     ];
     if metadata.target.contains("darwin") {
         configure_args.push("--disable-macos-framework".into());
