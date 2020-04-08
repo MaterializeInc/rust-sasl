@@ -69,6 +69,8 @@ AC_CANONICAL_TARGET
 
 AM_INIT_AUTOMAKE([1.11 tar-ustar dist-bzip2 foreign -Wno-portability subdir-objects])
 
+AM_MAINTAINER_MODE
+
 DIRS=""
 
 AC_ARG_ENABLE(cmulocal,

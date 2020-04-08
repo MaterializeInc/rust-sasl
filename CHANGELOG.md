@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog], and this project adheres to [Semantic
 Versioning].
 
+## 0.1.3 - Unreleased
+
+* Disable maintainer mode in the libsasl2 build system. Because Git does not
+  preserve timestamps on source files, `configure` can look out-of-date with
+  respect to `configure.ac` (et al.), and so `make` will try to rebuild
+  `configure`, which requires autotools. Disabling maintainer mode ensures Make
+  will never invoke autotools, even if the autotools files look out of date.
+
 ## [0.1.2] - 2020-04-03
 
 * Pass the `--with-pic` configure option when building the vendored libsasl2 to
