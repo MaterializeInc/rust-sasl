@@ -21,6 +21,20 @@ gpg --verify sasl2.tar.gz.sig sasl2.tar.gz
 rm -rf sasl2
 mkdir -p sasl2
 tar --strip-components=1 -C sasl2 -xf sasl2.tar.gz
-find sasl2 -name .gitignore -delete
-
 rm sasl2.tar.gz sasl2.tar.gz.sig
+
+find sasl2 -name .gitignore -delete
+patch -sp1 <<EOF
+--- a/sasl2/configure.ac
++++ b/sasl2/configure.ac
+@@ -69,6 +69,8 @@ AC_CANONICAL_TARGET
+
+ AM_INIT_AUTOMAKE([1.11 tar-ustar dist-bzip2 foreign -Wno-portability subdir-objects])
+
++AM_MAINTAINER_MODE
++
+ DIRS=""
+
+ AC_ARG_ENABLE(cmulocal,
+EOF
+(cd sasl2 && autoreconf -iv && rm -rf autom4te.cache)

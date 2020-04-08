@@ -51,7 +51,7 @@ jobs:
     - if: contains(matrix.os, 'macos')
       run: brew install autoconf automake
     - if: "!contains(matrix.features, 'vendored') && contains(matrix.os, 'ubuntu')"
-      run: sudo apt-get install -qy libsasl2-dev
+      run: sudo apt-get install -qy libsasl2-dev && sudo apt-get remove autoconf automake libtool
     - if: matrix.static == 'true'
       run: echo "::set-env name=SASL2_STATIC::1"
     - run: cd sasl2-sys && cargo test --no-default-features --features=${{ matrix.features }}
