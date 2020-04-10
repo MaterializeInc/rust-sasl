@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog], and this project adheres to [Semantic
 Versioning].
 
+## Unreleased
+
+* Don't build documentation and tests. This saves time and avoids depending on
+  somewhat esoteric tools like nroff.
+
 ## [0.1.3] - 2020-04-08
 
 * Disable maintainer mode in the libsasl2 build system. Because Git does not
