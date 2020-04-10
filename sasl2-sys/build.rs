@@ -106,11 +106,17 @@ fn build_sasl(metadata: &Metadata) {
             _ => make_args.push(format!("-j{}", s)),
         }
     }
-    cmd!("make", "install")
-        .dir(src_dir)
-        .env("MAKEFLAGS", make_flags)
-        .run()
-        .expect("make failed");
+
+    // Try very hard to only build the components we need. We want to run
+    // `cd lib && make install`, but that Makefile is incorrectly dependent
+    // on targets in `include` and `common`, so build those directories first.
+    for sub_dir in &["include", "common", "lib"] {
+        cmd!("make", "install")
+            .dir(src_dir.join(sub_dir))
+            .env("MAKEFLAGS", &make_flags)
+            .run()
+            .expect("make failed");
+    }
 
     validate_headers(&[install_dir.join("include")]);
 
