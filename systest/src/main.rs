@@ -13,6 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+use libc::{c_int, c_uint, c_ulong};
 use sasl2_sys::prelude::*;
 
 include!(concat!(env!("OUT_DIR"), "/all.rs"));

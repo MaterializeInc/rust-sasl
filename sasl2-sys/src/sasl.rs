@@ -47,51 +47,52 @@ pub const SASL_VERSION_MAJOR: u8 = sasl_version_major();
 pub const SASL_VERSION_MINOR: u8 = sasl_version_minor();
 pub const SASL_VERSION_STEP: u8 = sasl_version_step();
 
-pub const SASL_VERSION_FULL: u32 =
-    (SASL_VERSION_MAJOR as u32) << 16 | (SASL_VERSION_MINOR as u32) << 8 | SASL_VERSION_STEP as u32;
+pub const SASL_VERSION_FULL: c_int = (SASL_VERSION_MAJOR as c_int) << 16
+    | (SASL_VERSION_MINOR as c_int) << 8
+    | SASL_VERSION_STEP as c_int;
 
 // Result codes.
 
-pub const SASL_CONTINUE: u32 = 1;
-pub const SASL_OK: u32 = 0;
-pub const SASL_FAIL: i32 = -1;
-pub const SASL_NOMEM: i32 = -2;
-pub const SASL_BUFOVER: i32 = -3;
-pub const SASL_NOMECH: i32 = -4;
-pub const SASL_BADPROT: i32 = -5;
-pub const SASL_NOTDONE: i32 = -6;
-pub const SASL_BADPARAM: i32 = -7;
-pub const SASL_TRYAGAIN: i32 = -8;
-pub const SASL_BADMAC: i32 = -9;
-pub const SASL_NOTINIT: i32 = -12;
+pub const SASL_CONTINUE: c_int = 1;
+pub const SASL_OK: c_int = 0;
+pub const SASL_FAIL: c_int = -1;
+pub const SASL_NOMEM: c_int = -2;
+pub const SASL_BUFOVER: c_int = -3;
+pub const SASL_NOMECH: c_int = -4;
+pub const SASL_BADPROT: c_int = -5;
+pub const SASL_NOTDONE: c_int = -6;
+pub const SASL_BADPARAM: c_int = -7;
+pub const SASL_TRYAGAIN: c_int = -8;
+pub const SASL_BADMAC: c_int = -9;
+pub const SASL_NOTINIT: c_int = -12;
 
-pub const SASL_INTERACT: u32 = 2;
-pub const SASL_BADSERV: i32 = -10;
-pub const SASL_WRONGMECH: i32 = -11;
+pub const SASL_INTERACT: c_int = 2;
+pub const SASL_BADSERV: c_int = -10;
+pub const SASL_WRONGMECH: c_int = -11;
 
-pub const SASL_BADAUTH: i32 = -13;
-pub const SASL_NOAUTHZ: i32 = -14;
-pub const SASL_TOOWEAK: i32 = -15;
-pub const SASL_ENCRYPT: i32 = -16;
-pub const SASL_TRANS: i32 = -17;
+pub const SASL_BADAUTH: c_int = -13;
+pub const SASL_NOAUTHZ: c_int = -14;
+pub const SASL_TOOWEAK: c_int = -15;
+pub const SASL_ENCRYPT: c_int = -16;
+pub const SASL_TRANS: c_int = -17;
 
-pub const SASL_EXPIRED: i32 = -18;
-pub const SASL_DISABLED: i32 = -19;
-pub const SASL_NOUSER: i32 = -20;
-pub const SASL_BADVERS: i32 = -23;
-pub const SASL_UNAVAIL: i32 = -24;
-pub const SASL_NOVERIFY: i32 = -26;
+pub const SASL_EXPIRED: c_int = -18;
+pub const SASL_DISABLED: c_int = -19;
+pub const SASL_NOUSER: c_int = -20;
+pub const SASL_BADVERS: c_int = -23;
+pub const SASL_UNAVAIL: c_int = -24;
+pub const SASL_NOVERIFY: c_int = -26;
 
-pub const SASL_PWLOCK: i32 = -21;
-pub const SASL_NOCHANGE: i32 = -22;
-pub const SASL_WEAKPASS: i32 = -27;
-pub const SASL_NOUSERPASS: i32 = -28;
-pub const SASL_NEED_OLD_PASSWD: i32 = -29;
-pub const SASL_CONSTRAINT_VIOLAT: i32 = -30;
+pub const SASL_PWLOCK: c_int = -21;
+pub const SASL_NOCHANGE: c_int = -22;
+pub const SASL_WEAKPASS: c_int = -27;
+pub const SASL_NOUSERPASS: c_int = -28;
+pub const SASL_NEED_OLD_PASSWD: c_int = -29;
+pub const SASL_CONSTRAINT_VIOLAT: c_int = -30;
 
-pub const SASL_BADBINDING: i32 = -32;
+pub const SASL_BADBINDING: c_int = -32;
 
-pub const SASL_MECHNAMEMAX: u32 = 20;
+pub const SASL_MECHNAMEMAX: c_int = 20;
 
 // Connection state.
 
@@ -163,23 +164,23 @@ pub type sasl_ssf_t = c_uint;
 
 // Usage flags.
 
-pub const SASL_SUCCESS_DATA: u32 = 4;
-pub const SASL_NEED_PROXY: u32 = 8;
-pub const SASL_NEED_HTTP: u32 = 16;
+pub const SASL_SUCCESS_DATA: c_uint = 4;
+pub const SASL_NEED_PROXY: c_uint = 8;
+pub const SASL_NEED_HTTP: c_uint = 16;
 
 // Security property types.
 
-pub const SASL_SEC_NOPLAINTEXT: u32 = 1;
-pub const SASL_SEC_NOACTIVE: u32 = 2;
-pub const SASL_SEC_NODICTIONARY: u32 = 4;
-pub const SASL_SEC_FORWARD_SECRECY: u32 = 8;
-pub const SASL_SEC_NOANONYMOUS: u32 = 16;
-pub const SASL_SEC_PASS_CREDENTIALS: u32 = 32;
-pub const SASL_SEC_MUTUAL_AUTH: u32 = 64;
+pub const SASL_SEC_NOPLAINTEXT: c_uint = 1;
+pub const SASL_SEC_NOACTIVE: c_uint = 2;
+pub const SASL_SEC_NODICTIONARY: c_uint = 4;
+pub const SASL_SEC_FORWARD_SECRECY: c_uint = 8;
+pub const SASL_SEC_NOANONYMOUS: c_uint = 16;
+pub const SASL_SEC_PASS_CREDENTIALS: c_uint = 32;
+pub const SASL_SEC_MUTUAL_AUTH: c_uint = 64;
 #[cfg(not(all(target_os = "macos", not(feature = "vendored"))))]
-pub const SASL_SEC_MAXIMUM: u32 = 255;
+pub const SASL_SEC_MAXIMUM: c_uint = 255;
 #[cfg(all(target_os = "macos", not(feature = "vendored")))]
-pub const SASL_SEC_MAXIMUM: u32 = 65535;
+pub const SASL_SEC_MAXIMUM: c_uint = 65535;
 
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -206,7 +207,7 @@ pub struct sasl_callback {
 
 pub type sasl_callback_t = sasl_callback;
 
-pub const SASL_CB_LIST_END: u32 = 0;
+pub const SASL_CB_LIST_END: c_ulong = 0;
 
 pub type sasl_getopt_t = Option<
     unsafe extern "C" fn(
@@ -218,29 +219,29 @@ pub type sasl_getopt_t = Option<
     ) -> c_int,
 >;
 
-pub const SASL_CB_GETOPT: u32 = 1;
+pub const SASL_CB_GETOPT: c_ulong = 1;
 
-pub const SASL_LOG_NONE: u32 = 0;
-pub const SASL_LOG_ERR: u32 = 1;
-pub const SASL_LOG_FAIL: u32 = 2;
-pub const SASL_LOG_WARN: u32 = 3;
-pub const SASL_LOG_NOTE: u32 = 4;
-pub const SASL_LOG_DEBUG: u32 = 5;
-pub const SASL_LOG_TRACE: u32 = 6;
-pub const SASL_LOG_PASS: u32 = 7;
+pub const SASL_LOG_NONE: c_uint = 0;
+pub const SASL_LOG_ERR: c_uint = 1;
+pub const SASL_LOG_FAIL: c_uint = 2;
+pub const SASL_LOG_WARN: c_uint = 3;
+pub const SASL_LOG_NOTE: c_uint = 4;
+pub const SASL_LOG_DEBUG: c_uint = 5;
+pub const SASL_LOG_TRACE: c_uint = 6;
+pub const SASL_LOG_PASS: c_uint = 7;
 
 pub type sasl_log_t = Option<
     unsafe extern "C" fn(context: *mut c_void, level: c_int, message: *const c_char) -> c_int,
 >;
 
-pub const SASL_CB_LOG: u32 = 2;
+pub const SASL_CB_LOG: c_ulong = 2;
 
 pub type sasl_getpath_t =
     Option<unsafe extern "C" fn(context: *mut c_void, path: *mut *const c_char) -> c_int>;
 
-pub const SASL_CB_GETPATH: u32 = 3;
+pub const SASL_CB_GETPATH: c_ulong = 3;
 
-pub type sasl_verify_type_t = u32;
+pub type sasl_verify_type_t = c_uint;
 
 pub const SASL_VRFY_PLUGIN: sasl_verify_type_t = 0;
 pub const SASL_VRFY_CONF: sasl_verify_type_t = 1;
@@ -255,12 +256,12 @@ pub type sasl_verifyfile_t = Option<
     ) -> c_int,
 >;
 
-pub const SASL_CB_VERIFYFILE: u32 = 4;
+pub const SASL_CB_VERIFYFILE: c_ulong = 4;
 
 pub type sasl_getconfpath_t =
     Option<unsafe extern "C" fn(context: *mut c_void, path: *mut *mut c_char) -> c_int>;
 
-pub const SASL_CB_GETCONFPATH: u32 = 5;
+pub const SASL_CB_GETCONFPATH: c_ulong = 5;
 
 pub type sasl_getsimple_t = Option<
     unsafe extern "C" fn(
@@ -271,10 +272,10 @@ pub type sasl_getsimple_t = Option<
     ) -> c_int,
 >;
 
-pub const SASL_CB_USER: u32 = 16385;
-pub const SASL_CB_AUTHNAME: u32 = 16386;
-pub const SASL_CB_LANGUAGE: u32 = 16387;
-pub const SASL_CB_CNONCE: u32 = 16391;
+pub const SASL_CB_USER: c_ulong = 16385;
+pub const SASL_CB_AUTHNAME: c_ulong = 16386;
+pub const SASL_CB_LANGUAGE: c_ulong = 16387;
+pub const SASL_CB_CNONCE: c_ulong = 16391;
 
 pub type sasl_getsecret_t = Option<
     unsafe extern "C" fn(
@@ -285,7 +286,7 @@ pub type sasl_getsecret_t = Option<
     ) -> c_int,
 >;
 
-pub const SASL_CB_PASS: u32 = 16388;
+pub const SASL_CB_PASS: c_ulong = 16388;
 
 pub type sasl_chalprompt_t = Option<
     unsafe extern "C" fn(
@@ -299,8 +300,8 @@ pub type sasl_chalprompt_t = Option<
     ) -> c_int,
 >;
 
-pub const SASL_CB_ECHOPROMPT: u32 = 16389;
-pub const SASL_CB_NOECHOPROMPT: u32 = 16390;
+pub const SASL_CB_ECHOPROMPT: c_ulong = 16389;
+pub const SASL_CB_NOECHOPROMPT: c_ulong = 16390;
 
 pub type sasl_getrealm_t = Option<
     unsafe extern "C" fn(
@@ -311,7 +312,7 @@ pub type sasl_getrealm_t = Option<
     ) -> c_int,
 >;
 
-pub const SASL_CB_GETREALM: u32 = 16392;
+pub const SASL_CB_GETREALM: c_ulong = 16392;
 
 pub type sasl_authorize_t = Option<
     unsafe extern "C" fn(
@@ -327,7 +328,7 @@ pub type sasl_authorize_t = Option<
     ) -> c_int,
 >;
 
-pub const SASL_CB_PROXY_POLICY: u32 = 32769;
+pub const SASL_CB_PROXY_POLICY: c_ulong = 32769;
 
 pub type sasl_server_userdb_checkpass_t = Option<
     unsafe extern "C" fn(
@@ -340,7 +341,7 @@ pub type sasl_server_userdb_checkpass_t = Option<
     ) -> c_int,
 >;
 
-pub const SASL_CB_SERVER_USERDB_CHECKPASS: u32 = 32773;
+pub const SASL_CB_SERVER_USERDB_CHECKPASS: c_ulong = 32773;
 
 pub type sasl_server_userdb_setpass_t = Option<
     unsafe extern "C" fn(
@@ -354,15 +355,15 @@ pub type sasl_server_userdb_setpass_t = Option<
     ) -> c_int,
 >;
 
-pub const SASL_CB_SERVER_USERDB_SETPASS: u32 = 32774;
+pub const SASL_CB_SERVER_USERDB_SETPASS: c_ulong = 32774;
 
-pub const SASL_CU_NONE: u32 = 0;
-pub const SASL_CU_AUTHID: u32 = 1;
-pub const SASL_CU_AUTHZID: u32 = 2;
-pub const SASL_CU_EXTERNALLY_VERIFIED: u32 = 4;
-pub const SASL_CU_OVERRIDE: u32 = 8;
-pub const SASL_CU_ASIS_MASK: u32 = 65520;
-pub const SASL_CU_VERIFY_AGAINST_HASH: u32 = 16;
+pub const SASL_CU_NONE: c_uint = 0;
+pub const SASL_CU_AUTHID: c_uint = 1;
+pub const SASL_CU_AUTHZID: c_uint = 2;
+pub const SASL_CU_EXTERNALLY_VERIFIED: c_uint = 4;
+pub const SASL_CU_OVERRIDE: c_uint = 8;
+pub const SASL_CU_ASIS_MASK: c_uint = 65520;
+pub const SASL_CU_VERIFY_AGAINST_HASH: c_uint = 16;
 
 pub type sasl_canon_user_t = Option<
     unsafe extern "C" fn(
@@ -378,12 +379,12 @@ pub type sasl_canon_user_t = Option<
     ) -> c_int,
 >;
 
-pub const SASL_CB_CANON_USER: u32 = 32775;
+pub const SASL_CB_CANON_USER: c_ulong = 32775;
 
 // Common client/server functions.
 
-pub const SASL_PATH_TYPE_PLUGIN: u32 = 0;
-pub const SASL_PATH_TYPE_CONFIG: u32 = 1;
+pub const SASL_PATH_TYPE_PLUGIN: c_uint = 0;
+pub const SASL_PATH_TYPE_CONFIG: c_uint = 1;
 
 extern "C" {
     pub fn sasl_set_path(path_type: c_int, path: *mut c_char) -> c_int;
@@ -418,7 +419,7 @@ extern "C" {
     pub fn sasl_seterror(conn: *mut sasl_conn_t, flags: c_uint, fmt: *const c_char, ...);
 }
 
-pub const SASL_NOLOG: u32 = 1;
+pub const SASL_NOLOG: c_uint = 1;
 
 extern "C" {
     pub fn sasl_getprop(
@@ -428,25 +429,25 @@ extern "C" {
     ) -> c_int;
 }
 
-pub const SASL_USERNAME: u32 = 0;
-pub const SASL_SSF: u32 = 1;
-pub const SASL_MAXOUTBUF: u32 = 2;
-pub const SASL_DEFUSERREALM: u32 = 3;
-pub const SASL_GETOPTCTX: u32 = 4;
-pub const SASL_CALLBACK: u32 = 7;
-pub const SASL_IPLOCALPORT: u32 = 8;
-pub const SASL_IPREMOTEPORT: u32 = 9;
-pub const SASL_PLUGERR: u32 = 10;
-pub const SASL_DELEGATEDCREDS: u32 = 11;
-pub const SASL_SERVICE: u32 = 12;
-pub const SASL_SERVERFQDN: u32 = 13;
-pub const SASL_AUTHSOURCE: u32 = 14;
-pub const SASL_MECHNAME: u32 = 15;
-pub const SASL_AUTHUSER: u32 = 16;
-pub const SASL_APPNAME: u32 = 17;
-pub const SASL_GSS_CREDS: u32 = 18;
-pub const SASL_GSS_PEER_NAME: u32 = 19;
-pub const SASL_GSS_LOCAL_NAME: u32 = 20;
+pub const SASL_USERNAME: c_uint = 0;
+pub const SASL_SSF: c_uint = 1;
+pub const SASL_MAXOUTBUF: c_uint = 2;
+pub const SASL_DEFUSERREALM: c_uint = 3;
+pub const SASL_GETOPTCTX: c_uint = 4;
+pub const SASL_CALLBACK: c_uint = 7;
+pub const SASL_IPLOCALPORT: c_uint = 8;
+pub const SASL_IPREMOTEPORT: c_uint = 9;
+pub const SASL_PLUGERR: c_uint = 10;
+pub const SASL_DELEGATEDCREDS: c_uint = 11;
+pub const SASL_SERVICE: c_uint = 12;
+pub const SASL_SERVERFQDN: c_uint = 13;
+pub const SASL_AUTHSOURCE: c_uint = 14;
+pub const SASL_MECHNAME: c_uint = 15;
+pub const SASL_AUTHUSER: c_uint = 16;
+pub const SASL_APPNAME: c_uint = 17;
+pub const SASL_GSS_CREDS: c_uint = 18;
+pub const SASL_GSS_PEER_NAME: c_uint = 19;
+pub const SASL_GSS_LOCAL_NAME: c_uint = 20;
 
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -458,7 +459,7 @@ pub struct sasl_channel_binding {
 }
 pub type sasl_channel_binding_t = sasl_channel_binding;
 
-pub const SASL_CHANNEL_BINDING: u32 = 21;
+pub const SASL_CHANNEL_BINDING: c_uint = 21;
 
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -472,15 +473,15 @@ pub struct sasl_http_request {
 
 pub type sasl_http_request_t = sasl_http_request;
 
-pub const SASL_HTTP_REQUEST: u32 = 22;
+pub const SASL_HTTP_REQUEST: c_uint = 22;
 
 extern "C" {
     pub fn sasl_setprop(conn: *mut sasl_conn_t, propnum: c_int, value: *const c_void) -> c_int;
 }
 
-pub const SASL_SSF_EXTERNAL: u32 = 100;
-pub const SASL_SEC_PROPS: u32 = 101;
-pub const SASL_AUTH_EXTERNAL: u32 = 102;
+pub const SASL_SSF_EXTERNAL: c_uint = 100;
+pub const SASL_SEC_PROPS: c_uint = 101;
+pub const SASL_AUTH_EXTERNAL: c_uint = 102;
 
 extern "C" {
     pub fn sasl_idle(conn: *mut sasl_conn_t) -> c_int;
@@ -613,10 +614,10 @@ extern "C" {
     ) -> c_int;
 }
 
-pub const SASL_SET_CREATE: u32 = 1;
-pub const SASL_SET_DISABLE: u32 = 2;
-pub const SASL_SET_NOPLAIN: u32 = 4;
-pub const SASL_SET_CURMECH_ONLY: u32 = 8;
+pub const SASL_SET_CREATE: c_uint = 1;
+pub const SASL_SET_DISABLE: c_uint = 2;
+pub const SASL_SET_NOPLAIN: c_uint = 4;
+pub const SASL_SET_CURMECH_ONLY: c_uint = 8;
 
 // Auxilary property support.
 
