@@ -17,7 +17,7 @@
 
 use libc::{c_char, c_uint};
 
-pub const PROP_DEFAULT: u32 = 4;
+pub const PROP_DEFAULT: c_uint = 4;
 
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]

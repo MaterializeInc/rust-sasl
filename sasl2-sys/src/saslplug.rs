@@ -40,7 +40,7 @@ pub type sasl_getcallback_t = Option<
 
 // Utility functions for plugins.
 
-pub const SASL_UTILS_VERSION: u32 = 4;
+pub const SASL_UTILS_VERSION: c_uint = 4;
 
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -257,7 +257,7 @@ pub struct sasl_out_params {
 
 pub type sasl_out_params_t = sasl_out_params;
 
-pub type sasl_info_callback_stage_t = u32;
+pub type sasl_info_callback_stage_t = c_uint;
 
 pub const SASL_INFO_LIST_START: sasl_info_callback_stage_t = 0;
 pub const SASL_INFO_LIST_MECH: sasl_info_callback_stage_t = 1;
@@ -265,7 +265,7 @@ pub const SASL_INFO_LIST_END: sasl_info_callback_stage_t = 2;
 
 // Channel binding.
 
-pub type sasl_cbinding_disp_t = u32;
+pub type sasl_cbinding_disp_t = c_uint;
 
 pub const SASL_CB_DISP_NONE: sasl_cbinding_disp_t = 0;
 pub const SASL_CB_DISP_WANT: sasl_cbinding_disp_t = 1;
@@ -321,14 +321,14 @@ pub struct sasl_client_params {
 
 pub type sasl_client_params_t = sasl_client_params;
 
-pub const SASL_FEAT_WANT_CLIENT_FIRST: u32 = 2;
-pub const SASL_FEAT_SERVER_FIRST: u32 = 16;
-pub const SASL_FEAT_ALLOWS_PROXY: u32 = 32;
-pub const SASL_FEAT_DONTUSE_USERPASSWD: u32 = 128;
-pub const SASL_FEAT_GSS_FRAMING: u32 = 256;
-pub const SASL_FEAT_CHANNEL_BINDING: u32 = 2048;
-pub const SASL_FEAT_SUPPORTS_HTTP: u32 = 4096;
-pub const SASL_FEAT_NEEDSERVERFQDN: u32 = 1;
+pub const SASL_FEAT_WANT_CLIENT_FIRST: c_uint = 2;
+pub const SASL_FEAT_SERVER_FIRST: c_uint = 16;
+pub const SASL_FEAT_ALLOWS_PROXY: c_uint = 32;
+pub const SASL_FEAT_DONTUSE_USERPASSWD: c_uint = 128;
+pub const SASL_FEAT_GSS_FRAMING: c_uint = 256;
+pub const SASL_FEAT_CHANNEL_BINDING: c_uint = 2048;
+pub const SASL_FEAT_SUPPORTS_HTTP: c_uint = 4096;
+pub const SASL_FEAT_NEEDSERVERFQDN: c_uint = 1;
 
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -375,7 +375,7 @@ pub struct sasl_client_plug {
 
 pub type sasl_client_plug_t = sasl_client_plug;
 
-pub const SASL_CLIENT_PLUG_VERSION: u32 = 4;
+pub const SASL_CLIENT_PLUG_VERSION: c_uint = 4;
 
 pub type sasl_client_plug_init_t = Option<
     unsafe extern "C" fn(
@@ -483,10 +483,10 @@ pub struct sasl_server_params {
 
 pub type sasl_server_params_t = sasl_server_params;
 
-pub const SASL_SET_REMOVE: u32 = 1;
+pub const SASL_SET_REMOVE: c_uint = 1;
 
-pub const SASL_FEAT_SERVICE: u32 = 512;
-pub const SASL_FEAT_GETSECRET: u32 = 1024;
+pub const SASL_FEAT_SERVICE: c_uint = 512;
+pub const SASL_FEAT_GETSECRET: c_uint = 1024;
 
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -560,7 +560,7 @@ pub struct sasl_server_plug {
 
 pub type sasl_server_plug_t = sasl_server_plug;
 
-pub const SASL_SERVER_PLUG_VERSION: u32 = 4;
+pub const SASL_SERVER_PLUG_VERSION: c_uint = 4;
 
 pub type sasl_server_plug_init_t = Option<
     unsafe extern "C" fn(
@@ -656,7 +656,7 @@ pub struct sasl_canonuser {
 
 pub type sasl_canonuser_plug_t = sasl_canonuser;
 
-pub const SASL_CANONUSER_PLUG_VERSION: u32 = 5;
+pub const SASL_CANONUSER_PLUG_VERSION: c_uint = 5;
 
 pub type sasl_canonuser_init_t = Option<
     unsafe extern "C" fn(
@@ -714,12 +714,12 @@ pub struct sasl_auxprop_plug {
 
 pub type sasl_auxprop_plug_t = sasl_auxprop_plug;
 
-pub const SASL_AUXPROP_OVERRIDE: u32 = 1;
-pub const SASL_AUXPROP_AUTHZID: u32 = 2;
+pub const SASL_AUXPROP_OVERRIDE: c_uint = 1;
+pub const SASL_AUXPROP_AUTHZID: c_uint = 2;
 
-pub const SASL_AUXPROP_VERIFY_AGAINST_HASH: u32 = 16;
+pub const SASL_AUXPROP_VERIFY_AGAINST_HASH: c_uint = 16;
 
-pub const SASL_AUXPROP_PLUG_VERSION: u32 = 8;
+pub const SASL_AUXPROP_PLUG_VERSION: c_uint = 8;
 
 pub type sasl_auxprop_init_t = Option<
     unsafe extern "C" fn(
