@@ -1,0 +1,88 @@
+Upstream incorrectly uses `ifdef PIC` to mean "building a shared library"
+and the inverse to mean "building a static library." Rust requires that
+we build static libraries with PIC, so we go fix up all these ifdefs
+appropriately.
+
+diff --git a/lib/dlopen.c b/lib/dlopen.c
+index 8284cd8..cea0387 100644
+--- a/lib/dlopen.c
++++ b/lib/dlopen.c
+@@ -56,10 +56,8 @@
+ #include <sasl.h>
+ #include "saslint.h"
+
+-#ifndef PIC
+ #include <saslplug.h>
+ #include "staticopen.h"
+-#endif
+
+ #ifdef DO_DLOPEN
+ #if HAVE_DIRENT_H
+@@ -414,11 +412,9 @@ int _sasl_load_plugins(const add_plugin_list_t *entrypoints,
+     DIR *dp;
+     struct dirent *dir;
+ #endif
+-#ifndef PIC
+     add_plugin_t *add_plugin;
+     _sasl_plug_type type;
+     _sasl_plug_rec *p;
+-#endif
+
+     if (! entrypoints
+ 	|| ! getpath_cb
+@@ -429,7 +425,6 @@ int _sasl_load_plugins(const add_plugin_list_t *entrypoints,
+ 	|| ! verifyfile_cb->proc)
+ 	return SASL_BADPARAM;
+
+-#ifndef PIC
+     /* do all the static plugins first */
+
+     for(cur_ep = entrypoints; cur_ep->entryname; cur_ep++) {
+@@ -456,15 +451,8 @@ int _sasl_load_plugins(const add_plugin_list_t *entrypoints,
+ 	    	result = add_plugin(p->name, p->plug);
+ 	}
+     }
+-#endif /* !PIC */
+
+-/* only do the following if:
+- * 
+- * we support dlopen()
+- *  AND we are not staticly compiled
+- *      OR we are staticly compiled and TRY_DLOPEN_WHEN_STATIC is defined
+- */
+-#if defined(DO_DLOPEN) && (defined(PIC) || (!defined(PIC) && defined(TRY_DLOPEN_WHEN_STATIC)))
++#if defined(TRY_DLOPEN_WHEN_STATIC)
+     /* get the path to the plugins */
+     result = ((sasl_getpath_t *)(getpath_cb->proc))(getpath_cb->context,
+ 						    &path);
+@@ -545,7 +533,7 @@ int _sasl_load_plugins(const add_plugin_list_t *entrypoints,
+ 	}
+
+     } while ((c!='=') && (c!=0));
+-#endif /* defined(DO_DLOPEN) && (!defined(PIC) || (defined(PIC) && defined(TRY_DLOPEN_WHEN_STATIC))) */
++#endif
+
+     return SASL_OK;
+ }
+diff --git a/lib/server.c b/lib/server.c
+index 8d4c322..7cbd1cb 100644
+--- a/lib/server.c
++++ b/lib/server.c
+@@ -823,7 +823,7 @@ int sasl_server_init(const sasl_callback_t *callbacks,
+     int ret;
+     const sasl_callback_t *vf;
+     const char *pluginfile = NULL;
+-#ifdef PIC
++#if false
+     sasl_getopt_t *getopt;
+     void *context;
+ #endif
+@@ -894,7 +894,7 @@ int sasl_server_init(const sasl_callback_t *callbacks,
+     /* load internal plugins */
+     sasl_server_add_plugin("EXTERNAL", &external_server_plug_init);
+
+-#ifdef PIC
++#if false
+     /* delayed loading of plugins? (DSO only, as it doesn't
+      * make much [any] sense to delay in the static library case) */
+     if (_sasl_getcallback(NULL, SASL_CB_GETOPT, (sasl_callback_ft *)&getopt, &context)
