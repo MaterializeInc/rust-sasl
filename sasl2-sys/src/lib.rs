@@ -33,7 +33,7 @@
 //!
 //! sasl2-sys is currently bundling libsasl2 [v2.1.27].
 //!
-//! When configuring the bundled library, rust-sasl is intentionally
+//! When configuring the bundled library, sasl2-sys is intentionally
 //! conservative in the features it enables. All optional features are disabled
 //! by default. The following Cargo features can be used to re-enable features
 //! as necessary.
