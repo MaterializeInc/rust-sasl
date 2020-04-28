@@ -823,7 +823,7 @@ int sasl_server_init(const sasl_callback_t *callbacks,
     int ret;
     const sasl_callback_t *vf;
     const char *pluginfile = NULL;
-#ifdef PIC
+#if false
     sasl_getopt_t *getopt;
     void *context;
 #endif
@@ -894,7 +894,7 @@ int sasl_server_init(const sasl_callback_t *callbacks,
     /* load internal plugins */
     sasl_server_add_plugin("EXTERNAL", &external_server_plug_init);
 
-#ifdef PIC
+#if false
     /* delayed loading of plugins? (DSO only, as it doesn't
      * make much [any] sense to delay in the static library case) */
     if (_sasl_getcallback(NULL, SASL_CB_GETOPT, (sasl_callback_ft *)&getopt, &context) 

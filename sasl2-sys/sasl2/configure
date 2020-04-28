@@ -17123,6 +17123,48 @@ fi
   fi
 
   if test "$gss_impl" = "auto" -o "$gss_impl" = "mit"; then
+    # check for libkrb5support first
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for krb5int_getspecific in -lkrb5support" >&5
+$as_echo_n "checking for krb5int_getspecific in -lkrb5support... " >&6; }
+if ${ac_cv_lib_krb5support_krb5int_getspecific+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lkrb5support ${LIB_SOCKET} $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char krb5int_getspecific ();
+int
+main ()
+{
+return krb5int_getspecific ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  ac_cv_lib_krb5support_krb5int_getspecific=yes
+else
+  ac_cv_lib_krb5support_krb5int_getspecific=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_krb5support_krb5int_getspecific" >&5
+$as_echo "$ac_cv_lib_krb5support_krb5int_getspecific" >&6; }
+if test "x$ac_cv_lib_krb5support_krb5int_getspecific" = xyes; then :
+  K5SUP=-lkrb5support K5SUPSTATIC=$gssapi_dir/libkrb5support.a
+fi
+
+
     gss_failed=0
     { $as_echo "$as_me:${as_lineno-$LINENO}: checking for gss_unwrap in -lgssapi_krb5" >&5
 $as_echo_n "checking for gss_unwrap in -lgssapi_krb5... " >&6; }
@@ -17130,7 +17172,7 @@ if ${ac_cv_lib_gssapi_krb5_gss_unwrap+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   ac_check_lib_save_LIBS=$LIBS
-LIBS="-lgssapi_krb5 ${GSSAPIBASE_LIBS} -lgssapi_krb5 -lkrb5 -lk5crypto -lcom_err ${LIB_SOCKET} $LIBS"
+LIBS="-lgssapi_krb5 ${GSSAPIBASE_LIBS} -lgssapi_krb5 -lkrb5 -lk5crypto -lcom_err ${K5SUP} -lresolv -ldl ${LIB_SOCKET} $LIBS"
 cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 
@@ -17337,8 +17379,8 @@ fi
   fi
 
   if test "$gss_impl" = "mit"; then
-    GSSAPIBASE_LIBS="$GSSAPIBASE_LIBS -lgssapi_krb5 -lkrb5 -lk5crypto -lcom_err"
-    GSSAPIBASE_STATIC_LIBS="$GSSAPIBASE_LIBS $gssapi_dir/libgssapi_krb5.a $gssapi_dir/libkrb5.a $gssapi_dir/libk5crypto.a $gssapi_dir/libcom_err.a"
+    GSSAPIBASE_LIBS="$GSSAPIBASE_LIBS -lgssapi_krb5 -lkrb5 -lk5crypto -lcom_err ${K5SUP}"
+    GSSAPIBASE_STATIC_LIBS="$GSSAPIBASE_LIBS $gssapi_dir/libgssapi_krb5.a $gssapi_dir/libkrb5.a $gssapi_dir/libk5crypto.a $gssapi_dir/libcom_err.a ${K5SUPSTATIC}"
   elif test "$gss_impl" = "heimdal"; then
     CPPFLAGS="$CPPFLAGS"
     GSSAPIBASE_LIBS="$GSSAPIBASE_LIBS -lgssapi -lkrb5 -lasn1 -lroken ${LIB_CRYPT} ${LIB_DES} -lcom_err"
