@@ -1,0 +1,31 @@
+commit e022829b6ef295bc9c86437476fc3369596f13ca
+Author: Nikhil Benesch <nikhil.benesch@gmail.com>
+Date:   Tue Apr 28 16:24:18 2020 -0400
+
+    Don't fail cross compilation on SPNEGO check
+    
+    Also allow overriding the default with a cache value.
+
+diff --git a/m4/sasl2.m4 b/m4/sasl2.m4
+index 456d121..5c06b21 100644
+--- a/m4/sasl2.m4
++++ b/m4/sasl2.m4
+@@ -318,7 +318,7 @@ if test "$gssapi" != no; then
+   LIBS="$LIBS $GSSAPIBASE_LIBS"
+ 
+   AC_MSG_CHECKING([for SPNEGO support in GSSAPI libraries])
+-  AC_TRY_RUN([
++  AC_CACHE_VAL(sasl_cv_have_gss_spnego, AC_TRY_RUN([
+ #ifdef HAVE_GSSAPI_H
+ #include <gssapi.h>
+ #else
+@@ -342,7 +342,8 @@ int main(void)
+ ],	
+ 	[ AC_DEFINE(HAVE_GSS_SPNEGO,,[Define if your GSSAPI implementation supports SPNEGO])
+ 	AC_MSG_RESULT(yes) ],
+-	AC_MSG_RESULT(no))
++	AC_MSG_RESULT(no),
++	AC_MSG_WARN(cannot check when cross compiling so conservatively assuming no)))
+   LIBS="$cmu_save_LIBS"
+ 
+ else

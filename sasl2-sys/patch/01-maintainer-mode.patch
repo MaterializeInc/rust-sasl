@@ -1,0 +1,19 @@
+Despite how this looks, this *disables* maintainer mode by default, which has
+the desired effect of avoiding automatic rebuilds of autotools scripts.
+(Checking autotools scripts into Git, like we do in this repository, will often
+causes the outputs to look out of date relative to the inputs even when they are
+not, and we don't want to force the autotools dependency on our users.)
+
+diff --git a/configure.ac b/configure.ac
+index 388f5d0..b3db52c 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -69,6 +69,8 @@ AC_CANONICAL_TARGET
+
+ AM_INIT_AUTOMAKE([1.11 tar-ustar dist-bzip2 foreign -Wno-portability subdir-objects])
+
++AM_MAINTAINER_MODE
++
+ DIRS=""
+
+ AC_ARG_ENABLE(cmulocal,

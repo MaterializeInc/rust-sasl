@@ -318,7 +318,7 @@ if test "$gssapi" != no; then
   LIBS="$LIBS $GSSAPIBASE_LIBS"
 
   AC_MSG_CHECKING([for SPNEGO support in GSSAPI libraries])
-  AC_TRY_RUN([
+  AC_CACHE_VAL(sasl_cv_have_gss_spnego, AC_TRY_RUN([
 #ifdef HAVE_GSSAPI_H
 #include <gssapi.h>
 #else
@@ -342,7 +342,8 @@ int main(void)
 ],	
 	[ AC_DEFINE(HAVE_GSS_SPNEGO,,[Define if your GSSAPI implementation supports SPNEGO])
 	AC_MSG_RESULT(yes) ],
-	AC_MSG_RESULT(no))
+	AC_MSG_RESULT(no),
+	AC_MSG_WARN(cannot check when cross compiling so conservatively assuming no)))
   LIBS="$cmu_save_LIBS"
 
 else

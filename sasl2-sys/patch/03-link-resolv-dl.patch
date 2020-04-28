@@ -1,0 +1,22 @@
+commit a489bd545a6f48f666a22f9668649c7ba9076633
+Author: Nikhil Benesch <nikhil.benesch@gmail.com>
+Date:   Tue Apr 28 16:14:26 2020 -0400
+
+    Link against resolv and dl when testing for libkrb5
+
+    These are required for the link to succeed if krb5 has been built
+    statically.
+
+diff --git a/m4/sasl2.m4 b/m4/sasl2.m4
+index 59b1349..456d121 100644
+--- a/m4/sasl2.m4
++++ b/m4/sasl2.m4
+@@ -121,7 +121,7 @@ if test "$gssapi" != no; then
+
+     gss_failed=0
+     AC_CHECK_LIB(gssapi_krb5,gss_unwrap,gss_impl="mit",gss_failed=1,
+-                 ${GSSAPIBASE_LIBS} -lgssapi_krb5 -lkrb5 -lk5crypto -lcom_err ${K5SUP} ${LIB_SOCKET})
++                 ${GSSAPIBASE_LIBS} -lgssapi_krb5 -lkrb5 -lk5crypto -lcom_err ${K5SUP} -lresolv -ldl ${LIB_SOCKET})
+     if test "$gss_impl" != "auto" -a "$gss_failed" = "1"; then
+       gss_impl="failed"
+     fi

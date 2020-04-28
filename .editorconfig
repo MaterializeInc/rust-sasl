@@ -6,3 +6,6 @@ indent_size = 4
 
 [*.yml]
 indent_size = 2
+
+[*.patch]
+trim_trailing_whitespace = false
