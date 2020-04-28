@@ -33,6 +33,20 @@
 //!
 //! sasl2-sys is currently bundling libsasl2 [v2.1.27].
 //!
+//! When configuring the bundled library, rust-sasl is intentionally
+//! conservative in the features it enables. All optional features are disabled
+//! by default. The following Cargo features can be used to re-enable features
+//! as necessary.
+//!
+//!   * **`gssapi-vendored`** enables the GSSAPI plugin (`--enable-gssapi`) by
+//!      building and statically linking a copy of MIT's Kerberos implementation
+//!      using the [krb5-src] crate.
+//!
+//! Note that specifying any of these features implies `vendored`.
+//!
+//! The eventual goal is to expose each libsasl2 feature behind a Cargo feature
+//! of the same name. Pull requests on this front are welcomed.
+//!
 //! ## System
 //!
 //! Without the `vendored` Cargo feature, sasl2-sys will search for the libsasl2
@@ -50,6 +64,7 @@
 //! improve support for other platforms are welcome.
 //!
 //! [c-api]: https://github.com/cyrusimap/cyrus-sasl/tree/master/include
+//! [krb5-src]: https://github.com/MaterializeInc/rust-krb5-src
 //! [upstream]: https://www.cyrusimap.org/sasl
 //! [upstream-platforms]: https://www.cyrusimap.org/sasl/sasl/installation.html#supported-platforms
 //! [v2.1.27]: https://github.com/cyrusimap/cyrus-sasl/releases/tag/cyrus-sasl-2.1.27

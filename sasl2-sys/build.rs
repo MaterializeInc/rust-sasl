@@ -67,9 +67,13 @@ fn build_sasl(metadata: &Metadata) {
         "--disable-scram".into(),
         "--disable-digest".into(),
         "--disable-otp".into(),
+        #[cfg(feature = "gssapi-vendored")]
+        format!("--enable-gssapi={}", krb5_src::INSTALL_DIR),
+        #[cfg(not(feature = "gssapi-vendored"))]
         "--disable-gssapi".into(),
         "--disable-plain".into(),
         "--disable-anon".into(),
+        "--with-dblib=none".into(),
         "--with-pic".into(),
     ];
     if metadata.target.contains("darwin") {
@@ -110,7 +114,7 @@ fn build_sasl(metadata: &Metadata) {
     // Try very hard to only build the components we need. We want to run
     // `cd lib && make install`, but that Makefile is incorrectly dependent
     // on targets in `include` and `common`, so build those directories first.
-    for sub_dir in &["include", "common", "lib"] {
+    for sub_dir in &["include", "common", "lib", "sasldb", "plugins"] {
         cmd!("make", "install")
             .dir(src_dir.join(sub_dir))
             .env("MAKEFLAGS", &make_flags)
@@ -126,6 +130,23 @@ fn build_sasl(metadata: &Metadata) {
     );
     println!("cargo:rustc-link-lib=static=sasl2");
     println!("cargo:root={}", install_dir.display());
+
+    #[cfg(feature = "gssapi-vendored")]
+    {
+        // NOTE(benesch): linking gssapi_krb5 and its dependencies should one
+        // day be the responsibility of a libgssapi-sys project. Unfortunately
+        // none of the several options on crates.io are presently up to snuff.
+        println!(
+            "cargo:rustc-link-search=native={}",
+            Path::new(krb5_src::INSTALL_DIR).join("lib").display(),
+        );
+        println!("cargo:rustc-link-lib=static=gssapi_krb5");
+        println!("cargo:rustc-link-lib=static=krb5");
+        println!("cargo:rustc-link-lib=static=k5crypto");
+        println!("cargo:rustc-link-lib=static=com_err");
+        println!("cargo:rustc-link-lib=static=krb5support");
+        println!("cargo:rustc-link-lib=resolv")
+    }
 }
 
 fn find_sasl(metadata: &Metadata) {

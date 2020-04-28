@@ -56,10 +56,8 @@
 #include <sasl.h>
 #include "saslint.h"
 
-#ifndef PIC
 #include <saslplug.h>
 #include "staticopen.h"
-#endif
 
 #ifdef DO_DLOPEN
 #if HAVE_DIRENT_H
@@ -414,11 +412,9 @@ int _sasl_load_plugins(const add_plugin_list_t *entrypoints,
     DIR *dp;
     struct dirent *dir;
 #endif
-#ifndef PIC
     add_plugin_t *add_plugin;
     _sasl_plug_type type;
     _sasl_plug_rec *p;
-#endif
 
     if (! entrypoints
 	|| ! getpath_cb
@@ -429,7 +425,6 @@ int _sasl_load_plugins(const add_plugin_list_t *entrypoints,
 	|| ! verifyfile_cb->proc)
 	return SASL_BADPARAM;
 
-#ifndef PIC
     /* do all the static plugins first */
 
     for(cur_ep = entrypoints; cur_ep->entryname; cur_ep++) {
@@ -456,15 +451,8 @@ int _sasl_load_plugins(const add_plugin_list_t *entrypoints,
 	    	result = add_plugin(p->name, p->plug);
 	}
     }
-#endif /* !PIC */
 
-/* only do the following if:
- * 
- * we support dlopen()
- *  AND we are not staticly compiled
- *      OR we are staticly compiled and TRY_DLOPEN_WHEN_STATIC is defined
- */
-#if defined(DO_DLOPEN) && (defined(PIC) || (!defined(PIC) && defined(TRY_DLOPEN_WHEN_STATIC)))
+#if defined(TRY_DLOPEN_WHEN_STATIC)
     /* get the path to the plugins */
     result = ((sasl_getpath_t *)(getpath_cb->proc))(getpath_cb->context,
 						    &path);
@@ -545,7 +533,7 @@ int _sasl_load_plugins(const add_plugin_list_t *entrypoints,
 	}
 
     } while ((c!='=') && (c!=0));
-#endif /* defined(DO_DLOPEN) && (!defined(PIC) || (defined(PIC) && defined(TRY_DLOPEN_WHEN_STATIC))) */
+#endif
 
     return SASL_OK;
 }

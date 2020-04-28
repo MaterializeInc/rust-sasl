@@ -13,5 +13,6 @@ sasl2-sys = { path = "../sasl2-sys", default-features = false }
 ctest = "0.2"
 
 [features]
+gssapi-vendored = ["sasl2-sys/gssapi-vendored"]
 pkg-config = ["sasl2-sys/pkg-config"]
 vendored = ["sasl2-sys/vendored"]
