@@ -67,10 +67,11 @@ fn build_sasl(metadata: &Metadata) {
         "--disable-scram".into(),
         "--disable-digest".into(),
         "--disable-otp".into(),
-        #[cfg(feature = "gssapi-vendored")]
-        format!("--enable-gssapi={}", krb5_src::INSTALL_DIR),
-        #[cfg(not(feature = "gssapi-vendored"))]
-        "--disable-gssapi".into(),
+        if cfg!(feature = "gssapi-vendored") {
+            format!("--enable-gssapi={}", env::var("DEP_KRB5_SRC_ROOT").unwrap())
+        } else {
+            "--disable-gssapi".into()
+        },
         "--disable-plain".into(),
         "--disable-anon".into(),
         "--with-dblib=none".into(),
@@ -146,7 +147,9 @@ fn build_sasl(metadata: &Metadata) {
         // none of the several options on crates.io are presently up to snuff.
         println!(
             "cargo:rustc-link-search=native={}",
-            Path::new(krb5_src::INSTALL_DIR).join("lib").display(),
+            PathBuf::from(env::var("DEP_KRB5_SRC_ROOT").unwrap())
+                .join("lib")
+                .display(),
         );
         println!("cargo:rustc-link-lib=static=gssapi_krb5");
         println!("cargo:rustc-link-lib=static=krb5");
