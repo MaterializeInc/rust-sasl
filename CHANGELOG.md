@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog], and this project adheres to [Semantic
 Versioning].
 
+## [0.1.6] - 2020-04-27
+
+* Introduce the `gssapi-vendored` Cargo feature, which enables the GSSAPI plugin
+  by building and statically linking against [libkrb5], MIT's Kerberos
+  implementation.
+
 ## [0.1.5] - 2020-04-25
 
 * Use libc types rather than Rust types for constants (e.g., `libc::c_int`
@@ -51,7 +57,9 @@ Initial release.
 [0.1.3]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.2...v0.1.3
 [0.1.4]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.3...v0.1.4
 [0.1.5]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.4...v0.1.5
+[0.1.6]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.5...v0.1.6
 
 [Keep a Changelog]: https://keepachangelog.com/en/1.0.0/
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
 [crates-io-page]: https://crates.io/crates/sasl2-sys
+[libkrb5]: https://web.mit.edu/kerberos/
