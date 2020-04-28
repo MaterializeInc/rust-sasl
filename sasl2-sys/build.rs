@@ -75,6 +75,14 @@ fn build_sasl(metadata: &Metadata) {
         "--disable-anon".into(),
         "--with-dblib=none".into(),
         "--with-pic".into(),
+        // `--with-pic` only applies to libraries built with libtool, and
+        // when linking statically the sasl2 build system subverts libtool to
+        // almagamate plugins into the main library archive, so we need to set
+        // request PIC in CFLAGS too.
+        format!(
+            "CFLAGS={} -fPIC",
+            env::var("CFLAGS").unwrap_or_else(|_| String::new())
+        ),
     ];
     if metadata.target.contains("darwin") {
         configure_args.push("--disable-macos-framework".into());
@@ -114,7 +122,7 @@ fn build_sasl(metadata: &Metadata) {
     // Try very hard to only build the components we need. We want to run
     // `cd lib && make install`, but that Makefile is incorrectly dependent
     // on targets in `include` and `common`, so build those directories first.
-    for sub_dir in &["include", "common", "lib", "sasldb", "plugins"] {
+    for sub_dir in &["include", "common", "lib"] {
         cmd!("make", "install")
             .dir(src_dir.join(sub_dir))
             .env("MAKEFLAGS", &make_flags)
