@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog], and this project adheres to [Semantic
 Versioning].
 
+## Unreleased
+
+* Update to v0.2.0 of [krb5-src] for cross-compilation support.
+
 ## [0.1.7] - 2020-04-28
 
 * Ensure the GSSAPI plugin is position independent (i.e., compiled with `-fPIC`)
