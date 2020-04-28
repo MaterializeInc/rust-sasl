@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog], and this project adheres to [Semantic
 Versioning].
 
+## [0.1.7] - 2020-04-28
+
+* Ensure the GSSAPI plugin is position independent (i.e., compiled with `-fPIC`)
+  when the `gssapi-vendored` feature is enabled.
+
 ## [0.1.6] - 2020-04-27
 
 * Introduce the `gssapi-vendored` Cargo feature, which enables the GSSAPI plugin
@@ -58,6 +63,7 @@ Initial release.
 [0.1.4]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.3...v0.1.4
 [0.1.5]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.4...v0.1.5
 [0.1.6]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.5...v0.1.6
+[0.1.7]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.6...v0.1.7
 
 [Keep a Changelog]: https://keepachangelog.com/en/1.0.0/
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
