@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog], and this project adheres to [Semantic
 Versioning].
 
+## Unreleased
+
+* Detect when the host system is DragonflyBSD, FreeBSD, NetBSD, or OpenBSD and
+  invoke `gmake` instead of `make`, as libsasl2 is only compatible with GNU
+  Make, and `make` on BSD systems defaults to BSD Make.
+
 ## [0.1.9] - 2020-04-28
 
 * Don't fail cross-compilation on the check for GSSAPI SPNEGO availability.

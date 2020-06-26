@@ -96,26 +96,26 @@ fn build_sasl(metadata: &Metadata) {
         .run()
         .expect("configure failed");
 
+    let make;
+    if metadata.host.contains("dragonflybsd")
+        || metadata.host.contains("freebsd")
+        || metadata.host.contains("netbsd")
+        || metadata.host.contains("openbsd")
+    {
+        make = "gmake";
+    } else {
+        make = "make";
+    }
+
     let mut make_flags = OsString::new();
     let mut make_args = vec![];
     if let Ok(s) = env::var("NUM_JOBS") {
         match env::var_os("CARGO_MAKEFLAGS") {
-            // Only do this on non-windows and non-bsd
-            // On Windows, we could be invoking make instead of
-            // mingw32-make which doesn't work with our jobserver
-            // bsdmake also does not work with our job server
-            Some(ref s)
-                if !(cfg!(windows)
-                    || cfg!(target_os = "openbsd")
-                    || cfg!(target_os = "netbsd")
-                    || cfg!(target_os = "freebsd")
-                    || cfg!(target_os = "bitrig")
-                    || cfg!(target_os = "dragonflybsd")) =>
-            {
-                make_flags = s.clone()
-            }
+            // Only do this on non-Windows, since on Windows we could be
+            // invoking mingw32-make which doesn't work with the jobserver.
+            Some(s) if !cfg!(windows) => make_flags = s,
 
-            // This looks like `make`, let's hope it understands `-jN`.
+            // Otherwise, let's hope it understands `-jN`.
             _ => make_args.push(format!("-j{}", s)),
         }
     }
@@ -124,7 +124,7 @@ fn build_sasl(metadata: &Metadata) {
     // `cd lib && make install`, but that Makefile is incorrectly dependent
     // on targets in `include` and `common`, so build those directories first.
     for sub_dir in &["include", "common", "lib"] {
-        cmd!("make", "install")
+        cmd!(make, "install")
             .dir(src_dir.join(sub_dir))
             .env("MAKEFLAGS", &make_flags)
             .run()
@@ -219,7 +219,8 @@ fn find_sasl(metadata: &Metadata) {
     system only supports dynamic linking?
 
   * Are you willing to enable the `vendored` feature to instead build and link
-    against a bundled copy of libsasl2?"
+    against a bundled copy of libsasl2?
+"
         )
     })();
 
