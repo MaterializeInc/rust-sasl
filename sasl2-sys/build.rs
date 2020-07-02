@@ -96,16 +96,12 @@ fn build_sasl(metadata: &Metadata) {
         .run()
         .expect("configure failed");
 
-    let make;
-    if metadata.host.contains("dragonflybsd")
+    let is_bsd = metadata.host.contains("dragonflybsd")
         || metadata.host.contains("freebsd")
         || metadata.host.contains("netbsd")
-        || metadata.host.contains("openbsd")
-    {
-        make = "gmake";
-    } else {
-        make = "make";
-    }
+        || metadata.host.contains("openbsd");
+
+    let make = if is_bsd { "gmake" } else { "make" };
 
     let mut make_flags = OsString::new();
     let mut make_args = vec![];
@@ -156,7 +152,11 @@ fn build_sasl(metadata: &Metadata) {
         println!("cargo:rustc-link-lib=static=k5crypto");
         println!("cargo:rustc-link-lib=static=com_err");
         println!("cargo:rustc-link-lib=static=krb5support");
-        println!("cargo:rustc-link-lib=resolv")
+        // libresolv does not exist on FreeBSD;
+        // the relevent functions are part of libc instead.
+        if !is_bsd {
+            println!("cargo:rustc-link-lib=resolv")
+        }
     }
 }
 
