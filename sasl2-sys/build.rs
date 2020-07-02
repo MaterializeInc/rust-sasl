@@ -152,8 +152,8 @@ fn build_sasl(metadata: &Metadata) {
         println!("cargo:rustc-link-lib=static=k5crypto");
         println!("cargo:rustc-link-lib=static=com_err");
         println!("cargo:rustc-link-lib=static=krb5support");
-        // libresolv does not exist on FreeBSD;
-        // the relevent functions are part of libc instead.
+        // libresolv does not exist on BSD platforms; the relevant functions are
+        // part of libc instead.
         if !is_bsd {
             println!("cargo:rustc-link-lib=resolv")
         }
