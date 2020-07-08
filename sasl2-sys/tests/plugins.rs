@@ -67,6 +67,8 @@ fn test_plugin_info() {
     assert!(client_mechs.contains("EXTERNAL"));
     #[cfg(feature = "gssapi-vendored")]
     assert!(client_mechs.contains("GSSAPI"));
+    #[cfg(feature = "plain")]
+    assert!(client_mechs.contains("PLAIN"));
 
     let mut server_mechs = HashSet::new();
     unsafe {
@@ -83,4 +85,6 @@ fn test_plugin_info() {
     assert!(server_mechs.contains("EXTERNAL"));
     #[cfg(feature = "gssapi-vendored")]
     assert!(server_mechs.contains("GSSAPI"));
+    #[cfg(feature = "plain")]
+    assert!(server_mechs.contains("PLAIN"));
 }

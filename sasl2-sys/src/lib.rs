@@ -42,6 +42,8 @@
 //!      building and statically linking a copy of MIT's Kerberos implementation
 //!      using the [krb5-src] crate.
 //!
+//!   * **`plain`** enables the PLAIN plugin (`--enable-plain`).
+//!
 //! Note that specifying any of these features implies `vendored`.
 //!
 //! The eventual goal is to expose each libsasl2 feature behind a Cargo feature
