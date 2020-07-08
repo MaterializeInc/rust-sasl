@@ -72,7 +72,11 @@ fn build_sasl(metadata: &Metadata) {
         } else {
             "--disable-gssapi".into()
         },
-        "--disable-plain".into(),
+        if cfg!(feature = "plain") {
+            "--enable-plain".into()
+        } else {
+            "--disable-plain".into()
+        },
         "--disable-anon".into(),
         "--with-dblib=none".into(),
         "--with-pic".into(),

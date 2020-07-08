@@ -32,6 +32,7 @@ pkg-config = { version = "0.3.17", optional = true }
 [features]
 default = ["pkg-config"]
 gssapi-vendored = ["krb5-src", "vendored"]
+plain = ["vendored"]
 vendored = []
 
 [package.metadata.docs.rs]
