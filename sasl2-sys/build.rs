@@ -192,7 +192,7 @@ fn find_sasl(metadata: &Metadata) {
             }
         }
 
-        for prefix in &[Path::new("/usr"), Path::new("/usr/local")] {
+        for prefix in &[Path::new("/usr"), Path::new("/usr/local"), Path::new("/usr/local/musl")] {
             for lib_dir in vec![
                 prefix.join("lib"),
                 prefix.join("lib64"),
