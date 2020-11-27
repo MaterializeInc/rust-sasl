@@ -193,10 +193,10 @@ fn find_sasl(metadata: &Metadata) {
         }
 
         let mut prefixes = vec![Path::new("/usr"), Path::new("/usr/local")];
-        let custom_prefix = env::var_os("SASL2_DIR").unwrap_or_default();
+        let custom_prefix = env::var_os("DEP_SASL2_ROOT").unwrap_or_default();
         if !custom_prefix.is_empty() {
             prefixes.insert(0, Path::new(&custom_prefix));
-            println!("cargo:rerun-if-env-changed=SASL2_DIR");
+            println!("cargo:rerun-if-env-changed=DEP_SASL2_ROOT");
         }
 
         for prefix in &prefixes {
