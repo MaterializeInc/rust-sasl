@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog], and this project adheres to [Semantic
 Versioning].
 
-## Unreleased
+## [0.1.13] - 2020-12-15
 
 * When linking against a system copy of libsasl2, permit manually specifying
   the search directory via the `SASL2_DIR`, `SASL2_LIB_DIR`, and
@@ -103,6 +103,7 @@ Initial release.
 [0.1.10]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.9...v0.1.10
 [0.1.11]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.10...v0.1.11
 [0.1.12]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.11...v0.1.12
+[0.1.13]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.12...v0.1.13
 
 [Keep a Changelog]: https://keepachangelog.com/en/1.0.0/
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
