@@ -56,8 +56,16 @@
 //! feature is enabled, as it is by default, pkg-config will be queried for the
 //! location of the sasl2 library.
 //!
-//! When linking against the system-provided library, dynamic linking is
-//! preferred unless the `SASL2_STATIC` variable is set.
+//! To override the automatic search, set the `SASL2_DIR` environment variable
+//! to the path of the directory containing the desired libsasl2 directory.
+//!
+//! If the layout of the libsasl2 directory is nonstandard, set the
+//! `SASL2_LIB_DIR` and `SASL2_INCLUDE_DIR` environment variables to the path of
+//! the directory containining the libsasl2 libraries and headers, respectively.
+//! These environment variables take precedence over `SASL2_DIR` if set.
+//!
+//! When linking against a system library, dynamic linking is preferred unless
+//! the `SASL2_STATIC` environment variable is set.
 //!
 //! # Platform support
 //!
