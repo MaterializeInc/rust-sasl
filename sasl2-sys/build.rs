@@ -165,6 +165,21 @@ fn build_sasl(metadata: &Metadata) {
 }
 
 fn find_sasl(metadata: &Metadata) {
+    if let (Some(lib_dir), Some(include_dir)) = (
+        env::var_os("SASL2_LIB_DIR"),
+        env::var_os("SASL2_INCLUDE_DIR"),
+    ) {
+        emit_found_sasl(metadata, PathBuf::from(lib_dir), PathBuf::from(include_dir));
+        return;
+    } else if let Some(install_dir) = env::var_os("SASL2_DIR") {
+        emit_found_sasl(
+            metadata,
+            Path::new(&install_dir).join("lib"),
+            Path::new(&install_dir).join("include"),
+        );
+        return;
+    }
+
     #[cfg(feature = "pkg-config")]
     {
         if let Ok(pkg) = pkg_config::Config::new()
@@ -177,43 +192,44 @@ fn find_sasl(metadata: &Metadata) {
         }
     }
 
-    let (lib_dir, include_dir) = (|| {
-        if metadata.host == metadata.target
-            && metadata.target.contains("darwin")
-            && metadata.want_static != Some(false)
+    if metadata.host == metadata.target
+        && metadata.target.contains("darwin")
+        && metadata.want_static != Some(false)
+    {
+        let lib_dir = PathBuf::from("/usr/lib");
+        let include_dir =
+            PathBuf::from("/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include");
+        if lib_dir.join("libsasl2.dylib").exists()
+            && include_dir.join("sasl").join("sasl.h").exists()
         {
-            let lib_dir = PathBuf::from("/usr/lib");
-            let include_dir =
-                PathBuf::from("/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include");
-            if lib_dir.join("libsasl2.dylib").exists()
+            emit_found_sasl(metadata, lib_dir, include_dir);
+            return;
+        }
+    }
+
+    for prefix in &[Path::new("/usr"), Path::new("/usr/local")] {
+        for lib_dir in vec![
+            prefix.join("lib"),
+            prefix.join("lib64"),
+            prefix.join("lib").join(&metadata.target),
+            prefix
+                .join("lib")
+                .join(&metadata.target.replace("unknown-linux-gnu", "linux-gnu")),
+        ] {
+            let include_dir = prefix.join("include");
+            if (lib_dir.join("libsasl2.a").exists()
+                || lib_dir.join("libsasl2.so").exists()
+                || lib_dir.join("libsasl2.dylib").exists())
                 && include_dir.join("sasl").join("sasl.h").exists()
             {
-                return (lib_dir, include_dir);
+                emit_found_sasl(metadata, lib_dir, include_dir);
+                return;
             }
         }
+    }
 
-        for prefix in &[Path::new("/usr"), Path::new("/usr/local")] {
-            for lib_dir in vec![
-                prefix.join("lib"),
-                prefix.join("lib64"),
-                prefix.join("lib").join(&metadata.target),
-                prefix
-                    .join("lib")
-                    .join(&metadata.target.replace("unknown-linux-gnu", "linux-gnu")),
-            ] {
-                let include_dir = prefix.join("include");
-                if (lib_dir.join("libsasl2.a").exists()
-                    || lib_dir.join("libsasl2.so").exists()
-                    || lib_dir.join("libsasl2.dylib").exists())
-                    && include_dir.join("sasl").join("sasl.h").exists()
-                {
-                    return (lib_dir, include_dir);
-                }
-            }
-        }
-
-        panic!(
-            "Unable to find libsasl2 on your system. Hints:
+    panic!(
+        "Unable to find libsasl2 on your system. Hints:
 
   * Have you installed the libsasl2 development package for your platform?
     On Debian-based systems, try libsasl2-dev. On RHEL-based systems, try
@@ -225,9 +241,10 @@ fn find_sasl(metadata: &Metadata) {
   * Are you willing to enable the `vendored` feature to instead build and link
     against a bundled copy of libsasl2?
 "
-        )
-    })();
+    )
+}
 
+fn emit_found_sasl(metadata: &Metadata, lib_dir: PathBuf, include_dir: PathBuf) {
     validate_headers(&[include_dir]);
 
     let link_kind = match metadata.want_static {

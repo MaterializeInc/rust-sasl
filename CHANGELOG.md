@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog], and this project adheres to [Semantic
 Versioning].
 
+## Unreleased
+
+* When linking against a system copy of libsasl2, permit manually specifying
+  the search directory via the `SASL2_DIR`, `SASL2_LIB_DIR`, and
+  `SASL2_INCLUDE_DIR` environment variables.
+
 ## [0.1.12] - 2020-07-08
 
 * Introduce the `plain` feature to enable the PLAIN authentication method via
