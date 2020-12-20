@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog], and this project adheres to [Semantic
 Versioning].
 
-## Unreleased
+## [0.1.14] - 2020-12-20
 
 * Introduce the `scram` feature to enable the SCRAM authentication method via
   the `--enable-scram` configure option. This feature requires linking against
@@ -112,6 +112,7 @@ Initial release.
 [0.1.11]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.10...v0.1.11
 [0.1.12]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.11...v0.1.12
 [0.1.13]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.12...v0.1.13
+[0.1.14]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.13...v0.1.14
 
 [Keep a Changelog]: https://keepachangelog.com/en/1.0.0/
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
