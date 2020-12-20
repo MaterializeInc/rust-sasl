@@ -20,6 +20,7 @@ required-features = ["vendored"]
 [dependencies]
 krb5-src = { version = "0.2.0", optional = true }
 libc = "0.2.68"
+openssl-sys = { version = "0.9.55", optional = true }
 
 [dev-dependencies]
 version-sync = "0.9"
@@ -32,7 +33,9 @@ pkg-config = { version = "0.3.17", optional = true }
 [features]
 default = ["pkg-config"]
 gssapi-vendored = ["krb5-src", "vendored"]
+openssl-vendored = ["openssl-sys/vendored"]
 plain = ["vendored"]
+scram = ["openssl-sys", "vendored"]
 vendored = []
 
 [package.metadata.docs.rs]

@@ -14,5 +14,7 @@ ctest = "0.2"
 
 [features]
 gssapi-vendored = ["sasl2-sys/gssapi-vendored"]
+openssl-vendored = ["sasl2-sys/openssl-vendored"]
 pkg-config = ["sasl2-sys/pkg-config"]
+scram = ["sasl2-sys/scram"]
 vendored = ["sasl2-sys/vendored"]

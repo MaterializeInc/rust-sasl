@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog], and this project adheres to [Semantic
 Versioning].
 
+## Unreleased
+
+* Introduce the `scram` feature to enable the SCRAM authentication method via
+  the `--enable-scram` configure option. This feature requires linking against
+  OpenSSL by way of the [openssl-sys] crate. For convenience, the new
+  `openssl-vendored` feature re-exports the openssl-sys's crates `vendored`
+  feature.
+
 ## [0.1.13] - 2020-12-15
 
 * When linking against a system copy of libsasl2, permit manually specifying
