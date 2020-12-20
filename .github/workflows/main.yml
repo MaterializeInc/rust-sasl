@@ -40,6 +40,14 @@ jobs:
             os: ubuntu-latest
             rust: stable
             features: gssapi-vendored
+          - build: ubuntu-scram
+            os: ubuntu-latest
+            rust: stable
+            features: scram
+          - build: ubuntu-scram-vendored
+            os: ubuntu-latest
+            rust: stable
+            features: scram,openssl-vendored
           - build: macos
             os: macos-latest
             rust: stable

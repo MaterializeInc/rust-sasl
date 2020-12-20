@@ -69,6 +69,11 @@ fn test_plugin_info() {
     assert!(client_mechs.contains("GSSAPI"));
     #[cfg(feature = "plain")]
     assert!(client_mechs.contains("PLAIN"));
+    #[cfg(feature = "scram")]
+    {
+        assert!(client_mechs.contains("SCRAM-SHA-1"));
+        assert!(client_mechs.contains("SCRAM-SHA-256"));
+    }
 
     let mut server_mechs = HashSet::new();
     unsafe {
@@ -87,4 +92,9 @@ fn test_plugin_info() {
     assert!(server_mechs.contains("GSSAPI"));
     #[cfg(feature = "plain")]
     assert!(server_mechs.contains("PLAIN"));
+    #[cfg(feature = "scram")]
+    {
+        assert!(server_mechs.contains("SCRAM-SHA-1"));
+        assert!(server_mechs.contains("SCRAM-SHA-256"));
+    }
 }

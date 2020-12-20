@@ -57,6 +57,23 @@ fn build_sasl(metadata: &Metadata) {
     }
 
     let install_dir = metadata.out_dir.join("install");
+
+    let mut cppflags = env::var("CPPFLAGS").ok().unwrap_or_else(String::new);
+    let mut cflags = env::var("CFLAGS").ok().unwrap_or_else(String::new);
+
+    // If OpenSSL has been vendored, point libsasl2 at the vendored headers.
+    if cfg!(feature = "openssl-sys") {
+        if let Ok(openssl_root) = env::var("DEP_OPENSSL_ROOT") {
+            cppflags += &format!(" -I{}", Path::new(&openssl_root).join("include").display());
+        }
+    }
+
+    // `--with-pic` only applies to libraries built with libtool, and when
+    // linking statically the sasl2 build system subverts libtool to almagamate
+    // plugins into the main library archive, so we need to request PIC in
+    // CFLAGS too.
+    cflags += " -fPIC";
+
     let mut configure_args = vec![
         format!("--prefix={}", install_dir.display()),
         "--enable-static".into(),
@@ -77,17 +94,16 @@ fn build_sasl(metadata: &Metadata) {
         } else {
             "--disable-plain".into()
         },
+        if cfg!(feature = "scram") {
+            "--enable-scram".into()
+        } else {
+            "--disable-scram".into()
+        },
         "--disable-anon".into(),
         "--with-dblib=none".into(),
         "--with-pic".into(),
-        // `--with-pic` only applies to libraries built with libtool, and
-        // when linking statically the sasl2 build system subverts libtool to
-        // almagamate plugins into the main library archive, so we need to set
-        // request PIC in CFLAGS too.
-        format!(
-            "CFLAGS={} -fPIC",
-            env::var("CFLAGS").unwrap_or_else(|_| String::new())
-        ),
+        format!("CPPFLAGS={}", cppflags),
+        format!("CFLAGS={}", cflags),
     ];
     if metadata.target.contains("darwin") {
         configure_args.push("--disable-macos-framework".into());

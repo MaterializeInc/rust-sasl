@@ -44,7 +44,14 @@
 //!
 //!   * **`plain`** enables the PLAIN plugin (`--enable-plain`).
 //!
+//!   * **`scram`** enables the SCRAM plugin (`--enable-scram`). This requires
+//!     linking against OpenSSL via the [openssl-sys] crate.
+//!
 //! Note that specifying any of these features implies `vendored`.
+//!
+//! For convenience, the `vendored` feature of the [openssl-sys] crate is
+//! re-exported as the `openssl-vendored` feature. This feature is unlikely to
+//! be useful unless used in conjuction with the `scram` feature.
 //!
 //! The eventual goal is to expose each libsasl2 feature behind a Cargo feature
 //! of the same name. Pull requests on this front are welcomed.
@@ -75,9 +82,13 @@
 //!
 //! [c-api]: https://github.com/cyrusimap/cyrus-sasl/tree/master/include
 //! [krb5-src]: https://github.com/MaterializeInc/rust-krb5-src
+//! [openssl-sys]: https://github.com/sfackler/rust-openssl
 //! [upstream]: https://www.cyrusimap.org/sasl
 //! [upstream-platforms]: https://www.cyrusimap.org/sasl/sasl/installation.html#supported-platforms
 //! [v2.1.27]: https://github.com/cyrusimap/cyrus-sasl/releases/tag/cyrus-sasl-2.1.27
+
+#[cfg(feature = "openssl-sys")]
+extern crate openssl_sys;
 
 pub mod hmac_md5;
 pub mod md5;
