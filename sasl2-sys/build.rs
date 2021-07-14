@@ -249,7 +249,7 @@ fn find_sasl(metadata: &Metadata) {
 
   * Have you installed the libsasl2 development package for your platform?
     On Debian-based systems, try libsasl2-dev. On RHEL-based systems, try
-    cyrus-sasl-devel.
+    cyrus-sasl-devel. On macOS with Homebrew, try cyrus-sasl.
 
   * Have you incorrectly set the SASL2_STATIC environment variable when your
     system only supports dynamic linking?
