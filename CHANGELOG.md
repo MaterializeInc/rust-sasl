@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog], and this project adheres to [Semantic
 Versioning].
 
+## Unreleased
+
+* Include a macOS hint in the message for the error that occurs if libsasl2
+  is not found.
+
 ## [0.1.14] - 2020-12-20
 
 * Introduce the `scram` feature to enable the SCRAM authentication method via
