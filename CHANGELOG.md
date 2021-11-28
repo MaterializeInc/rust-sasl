@@ -5,10 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog], and this project adheres to [Semantic
 Versioning].
 
-## Unreleased
+## [0.1.15] - 2021-11-28
 
 * Include a macOS hint in the message for the error that occurs if libsasl2
   is not found.
+
+* Update to v0.3.0 of [krb5-src] which bundles libkrb5 v1.19.2.
 
 ## [0.1.14] - 2020-12-20
 
@@ -118,6 +120,7 @@ Initial release.
 [0.1.12]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.11...v0.1.12
 [0.1.13]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.12...v0.1.13
 [0.1.14]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.13...v0.1.14
+[0.1.15]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.14...v0.1.15
 
 [Keep a Changelog]: https://keepachangelog.com/en/1.0.0/
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
