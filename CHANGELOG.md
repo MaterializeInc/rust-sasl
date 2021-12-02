@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog], and this project adheres to [Semantic
 Versioning].
 
+## Unreleased
+
+* Update to the latest `config.guess` and `config.sub` versions. This notably
+  fixes compilation on some MacOS machines with the M1 CPU architecture ([#29]).
+
+[#1]: https://github.com/MaterializeInc/rust-sasl/issues/29
+
 ## [0.1.15] - 2021-11-28
 
 * Include a macOS hint in the message for the error that occurs if libsasl2
