@@ -7,7 +7,7 @@ documentation = "https://docs.rs/sasl2-sys"
 repository = "https://github.com/MaterializeInc/rust-sasl"
 license = "Apache-2.0"
 categories = ["external-ffi-bindings"]
-version = "0.1.15"
+version = "0.1.16"
 edition = "2018"
 links = "sasl2"
 
