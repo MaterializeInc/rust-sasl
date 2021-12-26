@@ -383,8 +383,8 @@ pub const SASL_CB_CANON_USER: c_ulong = 32775;
 
 // Common client/server functions.
 
-pub const SASL_PATH_TYPE_PLUGIN: c_uint = 0;
-pub const SASL_PATH_TYPE_CONFIG: c_uint = 1;
+pub const SASL_PATH_TYPE_PLUGIN: c_int = 0;
+pub const SASL_PATH_TYPE_CONFIG: c_int = 1;
 
 extern "C" {
     pub fn sasl_set_path(path_type: c_int, path: *mut c_char) -> c_int;

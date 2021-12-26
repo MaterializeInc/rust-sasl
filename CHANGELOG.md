@@ -14,12 +14,16 @@ Versioning].
   of the system library became invalid in macOS Big Sur, and there isn't an
   obvious replacement.)
 
+* **Backwards-incompatible change.** Change the type of `SASL_PATH_TYPE_PLUGIN`
+  and `SASL_PATH_TYPE_CONFIG` from `c_uint` to `c_int` to match the type of the
+  `path_type` parameter in the `sasl_set_path` function ([#34]).
+
+  Thanks, [@pbor]!
+
 ## [0.1.16] - 2021-12-02
 
 * Update to the latest `config.guess` and `config.sub` versions. This notably
   fixes compilation on some MacOS machines with the M1 CPU architecture ([#29]).
-
-[#29]: https://github.com/MaterializeInc/rust-sasl/issues/29
 
 ## [0.1.15] - 2021-11-28
 
@@ -83,11 +87,11 @@ Versioning].
 
 ## [0.1.5] - 2020-04-25
 
-* Use libc types rather than Rust types for constants (e.g., `libc::c_int`
-  rather than `i32`) to reduce the number of casts required when passing those
-  constants to other sasl2-sys functions.
+* **Backwards-incompatible change.** Use libc types rather than Rust types for
+  constants (e.g., `libc::c_int` rather than `i32`) to reduce the number of
+  casts required when passing those constants to other sasl2-sys functions.
 
-  **This is a backwards-incompatible change.**
+  Thanks, [@sandhose]!
 
 ## [0.1.4] - 2020-04-10
 
@@ -147,3 +151,9 @@ Initial release.
 [libkrb5]: https://web.mit.edu/kerberos/
 [krb5-src]: https://docs.rs/krb5-src
 [openssl-sys]: https://docs.rs/openssl-sys
+
+[#29]: https://github.com/MaterializeInc/rust-sasl/issues/29
+[#34]: https://github.com/MaterializeInc/rust-sasl/issues/34
+
+[@pbor]: https://github.com/pbor
+[@sandhose]: https://github.com/sandhose
