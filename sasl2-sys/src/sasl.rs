@@ -107,7 +107,7 @@ pub type sasl_conn_t = sasl_conn;
 // Password state.
 
 #[repr(C)]
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug)]
 pub struct sasl_secret {
     pub len: c_ulong,
     pub data: [c_uchar; 1],

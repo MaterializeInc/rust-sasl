@@ -9,6 +9,10 @@ Versioning].
 
 ## [Unreleased] <!-- #release:date -->
 
+* Don't derive `Copy` or `Clone` for the `sasl_secret_t` type, as it represents
+  a variable-length struct whose true length is not correctly handled by the
+  auto-derived implementations of `Copy` and `Clone` ([#36]).
+
 ## [0.1.17] - 2021-12-27
 
 * Blindly assume the presence of the system libsasl2 when dynamically linking on
@@ -157,6 +161,7 @@ Initial release.
 
 [#29]: https://github.com/MaterializeInc/rust-sasl/issues/29
 [#34]: https://github.com/MaterializeInc/rust-sasl/issues/34
+[#36]: https://github.com/MaterializeInc/rust-sasl/issues/36
 
 [@pbor]: https://github.com/pbor
 [@sandhose]: https://github.com/sandhose
