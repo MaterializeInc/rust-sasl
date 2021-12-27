@@ -134,3 +134,5 @@ Initial release.
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
 [crates-io-page]: https://crates.io/crates/sasl2-sys
 [libkrb5]: https://web.mit.edu/kerberos/
+[krb5-src]: https://docs.rs/krb5-src
+[openssl-sys]: https://docs.rs/openssl-sys
