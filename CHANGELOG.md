@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog], and this project adheres to [Semantic
 Versioning].
 
+<!-- #release:next-header -->
+
+## [Unreleased] <!-- #release:date -->
+
+* Blindly assume the presence of the system libsasl2 when dynamically linking on
+  macOS without the `vendored` feature. (The check that validated the presence
+  of the system library became invalid in macOS Big Sur, and there isn't an
+  obvious replacement.)
+
 ## [0.1.16] - 2021-12-02
 
 * Update to the latest `config.guess` and `config.sub` versions. This notably
@@ -129,6 +138,8 @@ Initial release.
 [0.1.14]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.13...v0.1.14
 [0.1.15]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.14...v0.1.15
 [0.1.16]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.15...v0.1.16
+[Unreleased]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.16...HEAD
+<!-- #release:next-url -->
 
 [Keep a Changelog]: https://keepachangelog.com/en/1.0.0/
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
