@@ -18,3 +18,6 @@ openssl-vendored = ["sasl2-sys/openssl-vendored"]
 pkg-config = ["sasl2-sys/pkg-config"]
 scram = ["sasl2-sys/scram"]
 vendored = ["sasl2-sys/vendored"]
+
+[package.metadata.release]
+release = false

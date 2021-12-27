@@ -13,13 +13,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+tag-prefix = ""
 pre-release-commit-message = "{{crate_name}}: release {{version}}"
 pre-release-replacements = [
-  { file="README.md", search = "sasl2-sys = .*", replace = "{{crate_name}} = \"{{version}}\"" },
-  { file="README.md", search = "docs.rs/sasl2-sys/[0-9.+]+", replace = "docs.rs/{{crate_name}}/{{version}}" },
-  { file="CHANGELOG.md", search = "Unreleased", replace = "{{version}}" },
-  { file="CHANGELOG.md", search = "\\.\\.\\.HEAD", replace = "...{{tag_name}}", exactly = 1 },
-  { file="CHANGELOG.md", search = "<!-- #release:date -->", replace = "- {{date}}" },
-  { file="CHANGELOG.md", search = "<!-- #release:next-header -->", replace = "<!-- #release:next-header -->\n\n## [Unreleased] <!-- #release:date -->", exactly = 1 },
-  { file="CHANGELOG.md", search = "<!-- #release:next-url -->", replace = "<!-- #release:next-url -->\n[Unreleased]: https://github.com/MaterializeInc/rust-sasl/compare/{{tag_name}}...HEAD", exactly = 1 },
+  { file="../README.md", search = "sasl2-sys = .*", replace = "{{crate_name}} = \"{{version}}\"" },
+  { file="../README.md", search = "docs.rs/sasl2-sys/[0-9.+]+", replace = "docs.rs/{{crate_name}}/{{version}}" },
+  { file="../CHANGELOG.md", search = "Unreleased", replace = "{{version}}" },
+  { file="../CHANGELOG.md", search = "\\.\\.\\.HEAD", replace = "...{{tag_name}}", exactly = 1 },
+  { file="../CHANGELOG.md", search = "<!-- #release:date -->", replace = "- {{date}}" },
+  { file="../CHANGELOG.md", search = "<!-- #release:next-header -->", replace = "<!-- #release:next-header -->\n\n## [Unreleased] <!-- #release:date -->", exactly = 1 },
+  { file="../CHANGELOG.md", search = "<!-- #release:next-url -->", replace = "<!-- #release:next-url -->\n[Unreleased]: https://github.com/MaterializeInc/rust-sasl/compare/{{tag_name}}...HEAD", exactly = 1 },
 ]
