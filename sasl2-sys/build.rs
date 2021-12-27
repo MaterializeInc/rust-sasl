@@ -20,6 +20,7 @@ use std::path::{Path, PathBuf};
 
 use duct::cmd;
 
+#[derive(Debug, Clone)]
 struct Metadata {
     host: String,
     target: String,
@@ -210,17 +211,24 @@ fn find_sasl(metadata: &Metadata) {
 
     if metadata.host == metadata.target
         && metadata.target.contains("darwin")
-        && metadata.want_static != Some(false)
+        && metadata.want_static != Some(true)
     {
+        // We blindly trust that all macOS hosts have libsasl2 available in the
+        // expected place. We used to actually check for the presence of the
+        // library on the filesystem, but since macOS Big Sur, libraries no
+        // longer actually exist on the filesystem.
+        // See: https://news.ycombinator.com/item?id=23612772
         let lib_dir = PathBuf::from("/usr/lib");
         let include_dir =
             PathBuf::from("/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include");
-        if lib_dir.join("libsasl2.dylib").exists()
-            && include_dir.join("sasl").join("sasl.h").exists()
-        {
-            emit_found_sasl(metadata, lib_dir, include_dir);
-            return;
-        }
+        let metadata = Metadata {
+            // Force a dynamic link, since the checks in `emit_found_sasl` won't
+            // find a dylib.
+            want_static: Some(false),
+            ..metadata.clone()
+        };
+        emit_found_sasl(&metadata, lib_dir, include_dir);
+        return;
     }
 
     for prefix in &[Path::new("/usr"), Path::new("/usr/local")] {
