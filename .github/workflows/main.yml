@@ -73,6 +73,27 @@ jobs:
     - run: cd sasl2-sys && cargo test --no-default-features --features=${{ matrix.features }}
     - run: cd systest && cargo run --features=${{ matrix.features }}
 
+  test-windows:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - build: windows-vendored
+            os: windows-latest
+            rust: stable
+            features: vendored,openssl-vendored
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install Rust (rustup)
+      run: rustup update ${{ matrix.rust }} --no-self-update && rustup default ${{ matrix.rust }}
+    - shell: cmd
+      run: |
+        call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+        set PATH=%PATH%;%wix%bin;"%WindowsSdkVerBinPath%"\x86
+        cd sasl2-sys
+        cargo test --no-default-features --features=${{ matrix.features }}
+
   lint:
     name: lint
     runs-on: ubuntu-latest

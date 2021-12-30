@@ -1,0 +1,23 @@
+From f8f30ddfeac113b9a676628c94a0654c43234f80 Mon Sep 17 00:00:00 2001
+From: Quanah Gibson-Mount <quanah@symas.com>
+Date: Mon, 25 Oct 2021 19:19:57 +0000
+Subject: [PATCH] Fix #667 and #666
+
+Signed-off-by: Quanah Gibson-Mount <quanah@symas.com>
+---
+ include/saslplug.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/saslplug.h b/include/saslplug.h
+index 8c49b056..ab79e68c 100755
+--- a/include/saslplug.h
++++ b/include/saslplug.h
+@@ -5,7 +5,7 @@
+ #define SASLPLUG_H 1
+ 
+ #ifndef MD5GLOBAL_H
+-#include <md5global.h>
++#include "md5global.h"
+ #endif
+ #ifndef MD5_H
+ #include "md5.h"

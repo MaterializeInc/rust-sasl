@@ -1,0 +1,347 @@
+diff --git a/NTMakefile b/NTMakefile
+index cdc4cac2b..00ca0a54b 100644
+--- a/NTMakefile
++++ b/NTMakefile
+@@ -44,7 +44,7 @@
+ 
+ !INCLUDE .\win32\common.mak
+ 
+-SUBDIRS=lib plugins utils sample
++SUBDIRS=lib
+ INCSUBDIRS=include sasldb win32\include
+ # TODO: Support installing new docs
+ DOCSUBDIRS=
+diff --git a/common/plugin_common.h b/common/plugin_common.h
+index 60f1dcd3a..c8c36b03f 100644
+--- a/common/plugin_common.h
++++ b/common/plugin_common.h
+@@ -63,11 +63,7 @@
+ #include <saslutil.h>
+ #include <saslplug.h>
+ 
+-#ifdef WIN32
+-#define PLUG_API __declspec(dllexport)
+-#else
+ #define PLUG_API extern
+-#endif
+ 
+ #define SASL_CLIENT_PLUG_INIT( x ) \
+ extern sasl_client_plug_init_t x##_client_plug_init; \
+diff --git a/include/prop.h b/include/prop.h
+index fed3fa77e..bf091d67d 100644
+--- a/include/prop.h
++++ b/include/prop.h
+@@ -32,26 +32,10 @@
+  * exported.  */
+ /* Under Unix, life is simpler: we just need to mark library functions
+  * as extern.  (Technically, we don't even have to do that.) */
+-#ifdef WIN32
+-# ifdef LIBSASL_EXPORTS
+-#  define LIBSASL_API  extern __declspec(dllexport)
+-# else /* LIBSASL_EXPORTS */
+-#  define LIBSASL_API  extern __declspec(dllimport)
+-# endif /* LIBSASL_EXPORTS */
+-#else /* WIN32 */
+ # define LIBSASL_API extern
+-#endif /* WIN32 */
+ 
+ /* Same as above, but used during a variable declaration. */
+-#ifdef WIN32
+-# ifdef LIBSASL_EXPORTS
+-#  define LIBSASL_VAR  extern __declspec(dllexport)
+-# else /* LIBSASL_EXPORTS */
+-#  define LIBSASL_VAR  extern __declspec(dllimport)
+-# endif /* LIBSASL_EXPORTS */
+-#else /* WIN32 */
+ # define LIBSASL_VAR extern
+-#endif /* WIN32 */
+ 
+ /* the resulting structure for property values
+  */
+diff --git a/lib/NTMakefile b/lib/NTMakefile
+index 63a54bd89..8e5455d74 100755
+--- a/lib/NTMakefile
++++ b/lib/NTMakefile
+@@ -7,12 +7,22 @@
+ compat_objs = getaddrinfo.obj getnameinfo.obj
+ !ENDIF
+ 
+-
+-libsasl_objs = auxprop.obj canonusr.obj checkpw.obj client.obj common.obj config.obj external.obj md5.obj saslutil.obj server.obj seterror.obj windlopen.obj getsubopt.obj plugin_common.obj $(compat_objs)
++plugin_objs =
++libsasl_objs = auxprop.obj canonusr.obj checkpw.obj client.obj common.obj config.obj external.obj md5.obj saslutil.obj server.obj seterror.obj windlopen.obj getsubopt.obj plugin_common.obj $(compat_objs) $(plugin_objs)
+ libsasl_res = libsasl.res
+ libsasl_out = libsasl.dll libsasl.exp libsasl.lib $(libsasl_res)
+ 
+-CPPFLAGS = /wd4996 /D NEED_GETOPT /I "..\win32\include" /I "." /I "..\include" /D "LIBSASL_EXPORTS" $(COMMON_CPPFLAGS)
++CPPFLAGS = /wd4996 /D NEED_GETOPT /I "..\win32\include" /I "." /I "..\include" /I "..\common" /I "$(OPENSSL_INCLUDE)" /D "LIBSASL_EXPORTS" $(COMMON_CPPFLAGS)
++
++!IF "$(STATIC_PLAIN)" == "1"
++plugin_objs = $(plugin_objs) plain.obj
++CPPFLAGS = $(CPPFLAGS) /DSTATIC_PLAIN
++!ENDIF
++
++!IF "$(STATIC_SCRAM)" == "1"
++plugin_objs = $(plugin_objs) scram.obj
++CPPFLAGS = $(CPPFLAGS) /DSTATIC_SCRAM /DHAVE_SHA256
++!ENDIF
+ 
+ !IF $(TARGET_WIN_SYSTEM) >= 51
+ CPPFLAGS = /D TARGET_WIN_SYSTEM=$(TARGET_WIN_SYSTEM) $(CPPFLAGS)
+@@ -35,21 +45,21 @@ all: all-recursive
+ # instead of libsasl.lib. Ugly, but works!
+ #
+ install: libsasl.dll
+-	@echo libsasl.exp > $(exclude_list)
+-	@echo libsasl.res >> $(exclude_list)
+-	@echo libsasl.dll.manifest >> $(exclude_list)
+-# .lib is excluded only because it is copied separately below
+-	@echo libsasl.lib >> $(exclude_list)
+-	@xcopy libsasl.* "$(bindir)" /I /F /Y /EXCLUDE:$(exclude_list)
+ 	@xcopy libsasl.l* "$(libdir)" /I /F /Y
+ 
+ all-recursive: libsasl.dll
+ 
+ libsasl.dll: $(libsasl_objs) $(libsasl_res)
+-	$(LINK32DLL) @<< $(LINK32DLL_FLAGS) /out:"libsasl.dll" /implib:"libsasl.lib" /pdb:"libsasl.pdb" $(libsasl_objs) $(libsasl_res)
++	$(LINK32LIB) @<< /out:"libsasl.lib" /pdb:"libsasl.pdb" $(libsasl_objs) $(libsasl_res) /libpath:$(OPENSSL_LIBPATH) libcrypto.lib
+ <<
+ 	IF EXIST $@.manifest mt -manifest $@.manifest -outputresource:$@;2
+ 
++plain.c: ..\plugins\plain.c
++	xcopy /D /Y ..\plugins\plain.c .
++
++scram.c: ..\plugins\scram.c
++	xcopy /D /Y ..\plugins\scram.c .
++
+ plugin_common.c: ..\common\plugin_common.c plugin_common.h
+ 	xcopy /D /Y ..\common\plugin_common.c .
+ 
+diff --git a/lib/saslutil.c b/lib/saslutil.c
+index b2c0f45a4..43a170d3e 100644
+--- a/lib/saslutil.c
++++ b/lib/saslutil.c
+@@ -673,9 +673,9 @@ LOWERCASE:
+ #include <string.h>                 /* for strchr() */ 
+  
+ /* static (global) variables that are specified as exported by getopt() */ 
+-__declspec(dllexport) char *optarg = NULL;    /* pointer to the start of the option argument  */ 
+-__declspec(dllexport) int   optind = 1;       /* number of the next argv[] to be evaluated    */ 
+-__declspec(dllexport) int   opterr = 1;       /* non-zero if a question mark should be returned */
++extern char *optarg = NULL;    /* pointer to the start of the option argument  */ 
++extern int   optind = 1;       /* number of the next argv[] to be evaluated    */ 
++extern int   opterr = 1;       /* non-zero if a question mark should be returned */
+ 
+  
+ /* handle possible future character set concerns by putting this in a macro */ 
+diff --git a/lib/windlopen.c b/lib/windlopen.c
+index 208ae14b2..c41beb6a2 100644
+--- a/lib/windlopen.c
++++ b/lib/windlopen.c
+@@ -270,145 +270,7 @@ int _sasl_load_plugins(const add_plugin_list_t *entrypoints,
+         }
+     }
+ 
+-    /* get the path to the plugins */
+-    result = ((sasl_getpath_t *)(getpath_cb->proc))(getpath_cb->context,
+-						    &utf8path);
+-    if (result != SASL_OK) return result;
+-    if (!utf8path) return SASL_FAIL;
+-
+-    if (sizeof(TCHAR) == sizeof(char)) {
+-        path = (TCHAR*)utf8path;
+-    }
+-    else {
+-        path = _sasl_utf8_to_wchar(utf8path);
+-        if (!path) return SASL_FAIL;
+-    }
+-
+-    if (_tcslen(path) >= PATH_MAX) { /* no you can't buffer overrun */
+-	    retCode = SASL_FAIL;
+-        goto cleanup;
+-    }
+-
+-    position=0;
+-    do {
+-	pos=0;
+-	do {
+-	    c=path[position];
+-	    position++;
+-	    cur_dir[pos]=c;
+-	    pos++;
+-	} while ((c!=PATHS_DELIMITER) && (c!=0));
+-	cur_dir[pos-1]='\0';
+-
+-
+-/* : check to make sure that a valid directory name was passed in */
+-	if (_tstat (cur_dir, &statbuf) < 0) {
+-	    continue;
+-	}
+-	if ((statbuf.st_mode & S_IFDIR) == 0) {
+-	    continue;
+-	}
+-
+-    _tcscpy(prefix, cur_dir);
+-	prefix_len = _tcslen (prefix);
+-
+-/* : Don't append trailing \ unless required */
+-	if (prefix[prefix_len-1] != '\\') {
+-        _tcscat(prefix,_T("\\"));
+-	    prefix_len++;
+-	}
+-
+-	pattern = prefix;
+-
+-/* : Check that we have enough space for "*.dll" */
+-	if ((prefix_len + DLL_MASK_LEN) > (sizeof(prefix) / sizeof(TCHAR) - 1)) {
+-	    _sasl_log(NULL, SASL_LOG_WARN, "plugin search mask is too big");
+-            continue;
+-	}
+-
+-	_tcscat (prefix + prefix_len, _T("*") DLL_SUFFIX);
+-
+-        fhandle = _tfindfirst (pattern, &finddata);
+-        if (fhandle == -1) {	/* no matching files */
+-            continue;
+-        }
+-
+-/* : Truncate "*.dll" */
+-	prefix[prefix_len] = '\0';
+-
+-	do {
+-	    size_t length;
+-	    void *library;
+-	    char *c;
+-	    char plugname[PATH_MAX];
+-	    int entries;
+-
+-	    length = _tcslen(finddata.name);
+-	    if (length < 5) { /* At least <Ch>.dll */
+-		continue; /* can not possibly be what we're looking for */
+-	    }
+-
+-/* : Check for overflow */
+-	    if (length + prefix_len >= PATH_MAX) continue; /* too big */
+-
+-	    if (_tcscmp(finddata.name + (length - _tcslen(DLL_SUFFIX)), DLL_SUFFIX) != 0) {
+-		continue;
+-	    }
+-
+-/* : Check that it is not a directory */
+-	    if ((finddata.attrib & _A_SUBDIR) == _A_SUBDIR) {
+-		continue;
+-	    }
+-
+-/* : Construct full name from prefix and name */
+-
+-        _tcscpy (full_name, prefix);
+-        _tcscat (full_name, finddata.name);
+-		
+-/* cut off .dll suffix -- this only need be approximate */
+-        if (sizeof(TCHAR) != sizeof(char)) {
+-            if (WideCharToMultiByte(CP_UTF8, 0, finddata.name, -1, plugname, sizeof(plugname), NULL, NULL) == 0) { // in case of unicode use utf8
+-                continue;
+-            }
+-        }
+-        else {
+-            _tcscpy((TCHAR*)plugname, finddata.name); // w/o unicode local enconding is fine
+-        }
+-	    c = strchr(plugname, '.');
+-	    if (c != NULL) *c = '\0';
+-
+-	    result = _tsasl_get_plugin (full_name, verifyfile_cb, &library);
+-
+-	    if (result != SASL_OK) {
+-		continue;
+-	    }
+-
+-	    entries = 0;
+-	    for (cur_ep = entrypoints; cur_ep->entryname; cur_ep++) {
+-		result = _sasl_plugin_load(plugname,
+-					   library,
+-					   cur_ep->entryname,
+-					   cur_ep->add_plugin);
+-		if (result == SASL_OK) {
+-		    ++entries;
+-		}
+-		/* If this fails, it's not the end of the world */
+-	    }
+-	    if (entries == 0) {
+-		_sasl_remove_last_plugin();
+-	    }
+-
+-	} while (_tfindnext (fhandle, &finddata) == 0);
+-	
+-	_findclose (fhandle);
+-
+-    } while ((c!='=') && (c!=0));
+-
+-cleanup:
+-    if (sizeof(TCHAR) != sizeof(char)) {
+-        sasl_FREE(path); /* It's always allocated in coversion to wchar */
+-    }
+-    return retCode;
++    return SASL_OK;
+ }
+ 
+ int
+diff --git a/plugins/NTMakefile b/plugins/NTMakefile
+index bb9dd92b4..d4f578372 100755
+--- a/plugins/NTMakefile
++++ b/plugins/NTMakefile
+@@ -237,7 +237,7 @@ saslOTP.dll: $(saslOTP_objs) saslOTP.res
+ 	IF EXIST $@.manifest mt -manifest $@.manifest -outputresource:$@;2
+ 
+ saslSASLDB.dll: $(saslSASLDB_objs) saslSASLDB.res
+-	$(LINK32DLL) @<< $(DB_LIBS) $(LINK32DLL_FLAGS) /out:"saslSASLDB.dll" /implib:"saslSASLDB.lib" $(saslSASLDB_objs) saslSASLDB.res
++	$(LINK32LIB) @<< $(DB_LIBS) $(LINK32DLL_FLAGS) /out:"saslSASLDB.lib" $(saslSASLDB_objs) saslSASLDB.res
+ <<
+ 	IF EXIST $@.manifest mt -manifest $@.manifest -outputresource:$@;2
+ 
+diff --git a/win32/common.mak b/win32/common.mak
+index 7f478cd3a..f8bf8da6c 100644
+--- a/win32/common.mak
++++ b/win32/common.mak
+@@ -29,9 +29,6 @@ LINK32LIB=link.exe /lib /nologo
+ SYS_LIBS=ws2_32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib
+ COMMON_CPPFLAGS=/D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "GCC_FALLTHROUGH="
+ 
+-# Disable all static plugins (this is not supported yet)
+-COMMON_CPPFLAGS = $(COMMON_CPPFLAGS) /D "NO_STATIC_PLUGINS"
+-
+ !IF "$(BITS)" == "64"
+ SYS_LIBS=$(SYS_LIBS) bufferoverflowU.lib
+ !ENDIF
+diff --git a/win32/include/config.h b/win32/include/config.h
+index af7aa0061..d8c8a3dbc 100644
+--- a/win32/include/config.h
++++ b/win32/include/config.h
+@@ -92,23 +92,20 @@ typedef int		    intptr_t;
+ /* #undef SASL_NDBM */
+ #define SASL_BERKELEYDB 1
+ 
+-/* static plugins are not yet compatible with building via NTMakeFile */
+-#ifndef NO_STATIC_PLUGINS
+ /* which mechs can we link statically? */
+-#define STATIC_ANONYMOUS 1
++/* #define STATIC_ANONYMOUS 1 */
+ /* #define STATIC_CRAMMD5 1 */
+-#define STATIC_DIGESTMD5 1
++/* #define STATIC_DIGESTMD5 1 */
+ /* #define STATIC_GSSAPIV2 1 */
+ /* #undef STATIC_KERBEROS4 */
+ /* #define STATIC_LOGIN 1 */
+ /* #undef STATIC_MYSQL */
+-#define STATIC_NTLM 1
++/* #define STATIC_NTLM 1 */
+ /* #define STATIC_OTP 1 */
+-#define STATIC_PLAIN 1
++/* #define STATIC_PLAIN 1 */
+ /* #define STATIC_SASLDB 1 */
+-#define STATIC_SCRAM 1
++/* #define STATIC_SCRAM 1 */
+ /* #define STATIC_SRP 1 */
+-#endif
+ 
+ /* ------------------------------------------------------------ */
+ 

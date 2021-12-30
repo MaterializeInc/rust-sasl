@@ -1,0 +1,33 @@
+diff --git a/plugins/NTMakefile b/plugins/NTMakefile
+index 9c9adad..bb9dd92 100755
+--- a/plugins/NTMakefile
++++ b/plugins/NTMakefile
+@@ -124,17 +124,9 @@ GSS_FLAGS=
+ GSS_LIBS=
+ !ENDIF
+
+-!IF "$(SASLDB)" == "LMDB"
+-DB_LIBS="/libpath:$(LMDB_LIBPATH)" lmdb.lib
+
+-# Auxprop Plugin
+-libsasldb_objs = allockey.obj db_lmdb.obj
+-!ELSE
+-DB_LIBS="/libpath:$(DB_LIBPATH)" "$(DB_LIB)"
+-
+-# Auxprop Plugin
+-libsasldb_objs = allockey.obj db_berkeley.obj
+-!ENDIF
++DB_LIBS=
++libsasldb_objs = allockey.obj db_none.obj
+
+ CRAM_FLAGS=/DOBSOLETE_CRAM_ATTR=1
+
+@@ -149,7 +141,7 @@ all_objs = $(saslANONYMOUS_objs) $(saslPLAIN_objs) $(saslCRAMMD5_objs) $(saslDIG
+ all_out = $(saslANONYMOUS_out) $(saslPLAIN_out) $(saslCRAMMD5_out) $(saslDIGESTMD5_out) $(saslLOGIN_out) $(saslSCRAM_out) $(saslNTLM_out) $(saslGSSAPI_out) $(saslSRP_out) $(saslOTP_out) $(saslSASLDB_out) $(saslSQL_out) $(saslLDAPDB_out)
+
+ # LIBSASL_EXPORTS is required to export additional DB routines from sasldb
+-DB_FLAGS = /I "$(DB_INCLUDE)" /I "..\sasldb" /D "LIBSASL_EXPORTS" /D "KEEP_DB_OPEN"
++DB_FLAGS = /I "$(DB_INCLUDE)" /I "..\sasldb" /D "LIBSASL_EXPORTS"
+
+ !IF $(TARGET_WIN_SYSTEM) >= 51
+ EXTRA_FLAGS = /D TARGET_WIN_SYSTEM=$(TARGET_WIN_SYSTEM) $(EXTRA_FLAGS)

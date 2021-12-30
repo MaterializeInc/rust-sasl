@@ -41,6 +41,8 @@
 //!      building and statically linking a copy of MIT's Kerberos implementation
 //!      using the [krb5-src] crate.
 //!
+//!      This feature is not supported on Windows.
+//!
 //!   * **`plain`** enables the PLAIN plugin (`--enable-plain`).
 //!
 //!   * **`scram`** enables the SCRAM plugin (`--enable-scram`). This requires
@@ -76,8 +78,8 @@
 //! # Platform support
 //!
 //! Upstream supports [most major platforms][upstream-platforms], but sasl2-sys
-//! is only tested on recent versions of Ubuntu, CentOS, and macOS. Patches that
-//! improve support for other platforms are welcome.
+//! is only tested on recent versions of Ubuntu, macOS, and Windows. Patches
+//! that improve support for other platforms are welcome.
 //!
 //! [c-api]: https://github.com/cyrusimap/cyrus-sasl/tree/master/include
 //! [krb5-src]: https://github.com/MaterializeInc/rust-krb5-src

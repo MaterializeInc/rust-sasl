@@ -9,6 +9,10 @@ Versioning].
 
 ## [Unreleased] <!-- #release:date -->
 
+* Add Windows support.
+
+  Thanks to [@pbor] for assisting.
+
 ## [0.1.18] - 2022-01-03
 
 * **Backwards-incompatible change.** Change the type of the log level constants

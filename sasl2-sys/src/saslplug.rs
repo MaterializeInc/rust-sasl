@@ -15,13 +15,13 @@
 
 //! SASL plugin API.
 
-use libc::{c_char, c_int, c_uchar, c_uint, c_ulong, c_void, iovec};
+use libc::{c_char, c_int, c_uchar, c_uint, c_ulong, c_void};
 
 use super::hmac_md5::{HMAC_MD5_CTX, HMAC_MD5_STATE};
 use super::md5::MD5_CTX;
 use super::prop::{propctx, propval};
 use super::sasl::{
-    sasl_callback_t, sasl_calloc_t, sasl_channel_binding_t, sasl_conn_t, sasl_free_t,
+    iovec, sasl_callback_t, sasl_calloc_t, sasl_channel_binding_t, sasl_conn_t, sasl_free_t,
     sasl_getopt_t, sasl_http_request_t, sasl_interact_t, sasl_malloc_t, sasl_mutex_alloc_t,
     sasl_mutex_free_t, sasl_mutex_lock_t, sasl_mutex_unlock_t, sasl_rand_t, sasl_realloc_t,
     sasl_security_properties_t, sasl_ssf_t,
