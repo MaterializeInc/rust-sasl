@@ -14,11 +14,18 @@
 // limitations under the License.
 
 use std::env;
+#[cfg(unix)]
 use std::ffi::OsString;
 use std::io::{self, BufRead, Write};
 use std::path::{Path, PathBuf};
 
 use duct::cmd;
+
+#[cfg(unix)]
+const LIBRARY_NAME: &str = "sasl2";
+
+#[cfg(windows)]
+const LIBRARY_NAME: &str = "libsasl";
 
 #[derive(Debug, Clone)]
 struct Metadata {
@@ -45,6 +52,7 @@ fn main() {
     };
 }
 
+#[cfg(unix)]
 fn build_sasl(metadata: &Metadata) {
     let src_dir = metadata.out_dir.join("sasl2");
     if !src_dir.exists() {
@@ -154,7 +162,7 @@ fn build_sasl(metadata: &Metadata) {
         "cargo:rustc-link-search=native={}",
         install_dir.join("lib").display(),
     );
-    println!("cargo:rustc-link-lib=static=sasl2");
+    println!("cargo:rustc-link-lib=static={}", LIBRARY_NAME);
     println!("cargo:root={}", install_dir.display());
 
     #[cfg(feature = "gssapi-vendored")]
@@ -179,6 +187,85 @@ fn build_sasl(metadata: &Metadata) {
             println!("cargo:rustc-link-lib=resolv")
         }
     }
+}
+
+#[cfg(windows)]
+fn build_sasl(metadata: &Metadata) {
+    let build_dir = metadata.out_dir.join("build");
+    let install_dir = metadata.out_dir.join("install");
+
+    if metadata.host != metadata.target {
+        panic!("cross-compilation on a Windows host is not supported");
+    }
+
+    if cfg!(feature = "gssapi-vendored") {
+        panic!("the \"gssapi-vendored\" feature is not supported on Windows")
+    }
+
+    // The Windows build system doesn't seem to support out-of-tree builds, so
+    // copy the source tree into the build directory since we're not allowed to
+    // build in the checkout directly.
+    let output = cmd!("robocopy", "sasl2", &build_dir, "/s", "/e")
+        .unchecked()
+        .run()
+        .unwrap_or_else(|e| panic!("copying source tree failed: {}", e));
+    // https://docs.microsoft.com/en-us/troubleshoot/windows-server/backup-and-storage/return-codes-used-robocopy-utility
+    if !matches!(output.status.code(), Some(0..=7)) {
+        panic!("copying source tree failed: {:?}", output);
+    }
+
+    // If OpenSSL has been vendored, point libsasl2 at the vendored headers.
+    let mut openssl_flags = vec![];
+    if cfg!(feature = "openssl-sys") {
+        if let Ok(openssl_root) = env::var("DEP_OPENSSL_ROOT") {
+            openssl_flags.push(format!(
+                "OPENSSL_INCLUDE={}",
+                Path::new(&openssl_root).join("include").display()
+            ));
+            openssl_flags.push(format!(
+                "OPENSSL_LIBPATH={}",
+                Path::new(&openssl_root).join("lib").display()
+            ));
+        }
+    }
+
+    let nmake = |args_in: &[&str]| {
+        let mut args: Vec<String> = vec![
+            "/f".into(),
+            "NTMakefile".into(),
+            format!("prefix={}", install_dir.display()),
+        ];
+        if cfg!(feature = "plain") {
+            args.push("STATIC_PLAIN=1".into());
+        }
+        if cfg!(feature = "scram") {
+            args.push("STATIC_SCRAM=1".into());
+        }
+        args.extend(openssl_flags.clone());
+        for arg in args_in {
+            args.push((*arg).into());
+        }
+        cmd("nmake", &args).dir(&build_dir)
+    };
+
+    // Build.
+    nmake(&[])
+        .run()
+        .unwrap_or_else(|e| panic!("nmake build failed: {}", e));
+
+    // Install.
+    nmake(&["install"])
+        .run()
+        .unwrap_or_else(|e| panic!("nmake install failed: {}", e));
+
+    validate_headers(&[install_dir.join("include")]);
+
+    println!(
+        "cargo:rustc-link-search=native={}",
+        install_dir.join("lib").display(),
+    );
+    println!("cargo:rustc-link-lib=static={}", LIBRARY_NAME);
+    println!("cargo:root={}", install_dir.display());
 }
 
 fn find_sasl(metadata: &Metadata) {
@@ -281,7 +368,7 @@ fn emit_found_sasl(metadata: &Metadata, lib_dir: PathBuf, include_dir: PathBuf) 
     };
 
     println!("cargo:rustc-link-search=native={}", lib_dir.display());
-    println!("cargo:rustc-link-lib={}=sasl2", link_kind);
+    println!("cargo:rustc-link-lib={}={}", link_kind, LIBRARY_NAME);
 }
 
 fn validate_headers(include_dirs: &[PathBuf]) {

@@ -32,26 +32,10 @@
  * exported.  */
 /* Under Unix, life is simpler: we just need to mark library functions
  * as extern.  (Technically, we don't even have to do that.) */
-#ifdef WIN32
-# ifdef LIBSASL_EXPORTS
-#  define LIBSASL_API  extern __declspec(dllexport)
-# else /* LIBSASL_EXPORTS */
-#  define LIBSASL_API  extern __declspec(dllimport)
-# endif /* LIBSASL_EXPORTS */
-#else /* WIN32 */
 # define LIBSASL_API extern
-#endif /* WIN32 */
 
 /* Same as above, but used during a variable declaration. */
-#ifdef WIN32
-# ifdef LIBSASL_EXPORTS
-#  define LIBSASL_VAR  extern __declspec(dllexport)
-# else /* LIBSASL_EXPORTS */
-#  define LIBSASL_VAR  extern __declspec(dllimport)
-# endif /* LIBSASL_EXPORTS */
-#else /* WIN32 */
 # define LIBSASL_VAR extern
-#endif /* WIN32 */
 
 /* the resulting structure for property values
  */

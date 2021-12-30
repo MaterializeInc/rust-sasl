@@ -15,7 +15,7 @@
 
 //! Main SASL API.
 
-use libc::{c_char, c_int, c_uchar, c_uint, c_ulong, c_void, iovec};
+use libc::{c_char, c_int, c_uchar, c_uint, c_ulong, c_void};
 
 use super::prop::propctx;
 
@@ -93,6 +93,17 @@ pub const SASL_CONSTRAINT_VIOLAT: c_int = -30;
 pub const SASL_BADBINDING: c_int = -32;
 
 pub const SASL_MECHNAMEMAX: c_int = 20;
+
+#[cfg(unix)]
+pub use libc::iovec;
+
+#[cfg(windows)]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct iovec {
+    pub iov_len: libc::c_long,
+    pub iov_base: *mut libc::c_char,
+}
 
 // Connection state.
 

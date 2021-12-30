@@ -63,11 +63,7 @@
 #include <saslutil.h>
 #include <saslplug.h>
 
-#ifdef WIN32
-#define PLUG_API __declspec(dllexport)
-#else
 #define PLUG_API extern
-#endif
 
 #define SASL_CLIENT_PLUG_INIT( x ) \
 extern sasl_client_plug_init_t x##_client_plug_init; \
