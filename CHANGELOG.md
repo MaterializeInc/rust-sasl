@@ -9,6 +9,8 @@ Versioning].
 
 ## [Unreleased] <!-- #release:date -->
 
+## [0.1.18] - 2022-01-03
+
 * **Backwards-incompatible change.** Change the type of the log level constants
   constants from `c_uint` to `c_int` to match the type of the `level`
   parameter of the `sasl_log_t` typedef ([#40]). The log level constants are:
@@ -146,7 +148,8 @@ Versioning].
 Initial release.
 
 <!-- #release:next-url -->
-[Unreleased]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.17...HEAD
+[Unreleased]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.18...HEAD
+[0.1.18]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.17...v0.1.18
 [0.1.17]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.16...v0.1.17
 [0.1.16]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.15...v0.1.16
 [0.1.15]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.14...v0.1.15
