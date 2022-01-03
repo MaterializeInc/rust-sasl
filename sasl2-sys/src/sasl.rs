@@ -221,14 +221,14 @@ pub type sasl_getopt_t = Option<
 
 pub const SASL_CB_GETOPT: c_ulong = 1;
 
-pub const SASL_LOG_NONE: c_uint = 0;
-pub const SASL_LOG_ERR: c_uint = 1;
-pub const SASL_LOG_FAIL: c_uint = 2;
-pub const SASL_LOG_WARN: c_uint = 3;
-pub const SASL_LOG_NOTE: c_uint = 4;
-pub const SASL_LOG_DEBUG: c_uint = 5;
-pub const SASL_LOG_TRACE: c_uint = 6;
-pub const SASL_LOG_PASS: c_uint = 7;
+pub const SASL_LOG_NONE: c_int = 0;
+pub const SASL_LOG_ERR: c_int = 1;
+pub const SASL_LOG_FAIL: c_int = 2;
+pub const SASL_LOG_WARN: c_int = 3;
+pub const SASL_LOG_NOTE: c_int = 4;
+pub const SASL_LOG_DEBUG: c_int = 5;
+pub const SASL_LOG_TRACE: c_int = 6;
+pub const SASL_LOG_PASS: c_int = 7;
 
 pub type sasl_log_t = Option<
     unsafe extern "C" fn(context: *mut c_void, level: c_int, message: *const c_char) -> c_int,

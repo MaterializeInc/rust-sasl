@@ -9,6 +9,19 @@ Versioning].
 
 ## [Unreleased] <!-- #release:date -->
 
+* **Backwards-incompatible change.** Change the type of the log level constants
+  constants from `c_uint` to `c_int` to match the type of the `level`
+  parameter of the `sasl_log_t` typedef ([#40]). The log level constants are:
+
+  * `SASL_LOG_NONE`
+  * `SASL_LOG_ERR`
+  * `SASL_LOG_FAIL`
+  * `SASL_LOG_WARN`
+  * `SASL_LOG_NOTE`
+  * `SASL_LOG_DEBUG`
+  * `SASL_LOG_TRACE`
+  * `SASL_LOG_PASS`
+
 * Don't derive `Copy` or `Clone` for the `sasl_secret_t` type, as it represents
   a variable-length struct whose true length is not correctly handled by the
   auto-derived implementations of `Copy` and `Clone` ([#36]).
@@ -162,6 +175,7 @@ Initial release.
 [#29]: https://github.com/MaterializeInc/rust-sasl/issues/29
 [#34]: https://github.com/MaterializeInc/rust-sasl/issues/34
 [#36]: https://github.com/MaterializeInc/rust-sasl/issues/36
+[#40]: https://github.com/MaterializeInc/rust-sasl/issues/40
 
 [@pbor]: https://github.com/pbor
 [@sandhose]: https://github.com/sandhose
