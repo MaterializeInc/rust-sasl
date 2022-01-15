@@ -15,8 +15,9 @@
 
 //! Main SASL API.
 
-use libc::{c_char, c_int, c_uchar, c_uint, c_ulong, c_void, iovec};
+use libc::{c_char, c_int, c_uchar, c_uint, c_ulong, c_void};
 
+use super::iovec::iovec;
 use super::prop::propctx;
 
 // Version.

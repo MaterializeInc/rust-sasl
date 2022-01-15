@@ -90,6 +90,7 @@
 extern crate openssl_sys;
 
 pub mod hmac_md5;
+pub mod iovec;
 pub mod md5;
 pub mod prop;
 pub mod sasl;

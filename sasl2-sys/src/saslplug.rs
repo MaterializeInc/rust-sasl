@@ -15,9 +15,10 @@
 
 //! SASL plugin API.
 
-use libc::{c_char, c_int, c_uchar, c_uint, c_ulong, c_void, iovec};
+use libc::{c_char, c_int, c_uchar, c_uint, c_ulong, c_void};
 
 use super::hmac_md5::{HMAC_MD5_CTX, HMAC_MD5_STATE};
+use super::iovec::iovec;
 use super::md5::MD5_CTX;
 use super::prop::{propctx, propval};
 use super::sasl::{
