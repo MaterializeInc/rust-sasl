@@ -9,6 +9,8 @@ Versioning].
 
 ## [Unreleased] <!-- #release:date -->
 
+## [0.1.19+2.1.27] - 2022-01-16
+
 * Add Windows support.
 
   Thanks to [@pbor] for assisting.
@@ -152,7 +154,8 @@ Versioning].
 Initial release.
 
 <!-- #release:next-url -->
-[Unreleased]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.18...HEAD
+[Unreleased]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.19+2.1.27...HEAD
+[0.1.19+2.1.27]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.18...v0.1.19+2.1.27
 [0.1.18]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.17...v0.1.18
 [0.1.17]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.16...v0.1.17
 [0.1.16]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.15...v0.1.16
