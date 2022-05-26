@@ -354,6 +354,7 @@ EGREP = @EGREP@
 ETAGS = @ETAGS@
 EXEEXT = @EXEEXT@
 FGREP = @FGREP@
+FILECMD = @FILECMD@
 GETADDRINFOOBJS = @GETADDRINFOOBJS@
 GETNAMEINFOOBJS = @GETNAMEINFOOBJS@
 GETSUBOPT = @GETSUBOPT@
@@ -365,11 +366,6 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 IPCTYPE = @IPCTYPE@
-JAVAC = @JAVAC@
-JAVADOC = @JAVADOC@
-JAVAH = @JAVAH@
-JAVAROOT = @JAVAROOT@
-JAVA_INCLUDES = @JAVA_INCLUDES@
 LD = @LD@
 LDAP_LIBS = @LDAP_LIBS@
 LDFLAGS = @LDFLAGS@
@@ -431,6 +427,7 @@ SASL_DB_UTILS = @SASL_DB_UTILS@
 SASL_DL_LIB = @SASL_DL_LIB@
 SASL_KRB_LIB = @SASL_KRB_LIB@
 SASL_MECHS = @SASL_MECHS@
+SASL_STATIC_LIB = @SASL_STATIC_LIB@
 SASL_STATIC_LIBS = @SASL_STATIC_LIBS@
 SASL_STATIC_OBJS = @SASL_STATIC_OBJS@
 SASL_STATIC_SRCS = @SASL_STATIC_SRCS@
@@ -513,7 +510,7 @@ top_srcdir = @top_srcdir@
 # See <http://www.gnu.org/software/libtool/manual/libtool.html#Versioning>
 # CURRENT:REVISION:AGE
 plugin_version = 3:0:0
-AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_srcdir)/lib -I$(top_srcdir)/sasldb -I$(top_srcdir)/common -I$(top_builddir)/include
+AM_CPPFLAGS = -DLIBSASL_EXPORTS=1 -I$(top_srcdir)/include -I$(top_srcdir)/lib -I$(top_srcdir)/sasldb -I$(top_srcdir)/common -I$(top_builddir)/include
 AM_LDFLAGS = -module -export-dynamic -rpath $(plugindir) -version-info $(plugin_version) -no-undefined
 @BUILD_LIBOBJ_TRUE@COMPAT_OBJS = $(top_builddir)/lib/libobj.la
 PLUGIN_COMMON_OBJS = $(top_builddir)/common/libplugin_common.la

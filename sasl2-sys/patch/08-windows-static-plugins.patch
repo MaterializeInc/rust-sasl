@@ -313,7 +313,7 @@ index 7f478cd3a..f8bf8da6c 100644
  SYS_LIBS=$(SYS_LIBS) bufferoverflowU.lib
  !ENDIF
 diff --git a/win32/include/config.h b/win32/include/config.h
-index af7aa0061..d8c8a3dbc 100644
+index 0935054d..d4e9b15f 100755
 --- a/win32/include/config.h
 +++ b/win32/include/config.h
 @@ -92,23 +92,20 @@ typedef int		    intptr_t;
@@ -330,7 +330,8 @@ index af7aa0061..d8c8a3dbc 100644
 +/* #define STATIC_DIGESTMD5 1 */
  /* #define STATIC_GSSAPIV2 1 */
  /* #undef STATIC_KERBEROS4 */
- /* #define STATIC_LOGIN 1 */
+-#define STATIC_LOGIN 1
++/* #define STATIC_LOGIN 1 */
  /* #undef STATIC_MYSQL */
 -#define STATIC_NTLM 1
 +/* #define STATIC_NTLM 1 */

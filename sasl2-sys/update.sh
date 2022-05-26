@@ -29,7 +29,7 @@ rm sasl2.tar.gz sasl2.tar.gz.sig
     find . -name .gitignore -delete
 
     # See https://github.com/cyrusimap/cyrus-sasl/pull/664#issuecomment-931654382.
-    rm include/md5global.h win32/include/md5global.h
+    rm include/md5global.h
 
     for p in ../patch/*; do
         patch -sp1 -i "$p"
@@ -37,5 +37,5 @@ rm sasl2.tar.gz sasl2.tar.gz.sig
     find . -name '*.orig' -delete
 
     autoreconf -ivf
-    rm -rf autom4te.cache
+    rm -rf autom4te.cache *~ doc docsrc
 )

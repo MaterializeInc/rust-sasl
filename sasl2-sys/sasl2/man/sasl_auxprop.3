@@ -1,35 +1,8 @@
 .\" Man page generated from reStructuredText.
 .
-.TH "SASL_AUXPROP" "3" "November 08, 2018" "2.1.27" "Cyrus SASL"
+.TH "SASL_AUXPROP" "3" "February 18, 2022" "2.1.28" "Cyrus SASL"
 .SH NAME
 sasl_auxprop \- Cyrus SASL documentation
-.
-.nr rst2man-indent-level 0
-.
-.de1 rstReportMargin
-\\$1 \\n[an-margin]
-level \\n[rst2man-indent-level]
-level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
--
-\\n[rst2man-indent0]
-\\n[rst2man-indent1]
-\\n[rst2man-indent2]
-..
-.de1 INDENT
-.\" .rstReportMargin pre:
-. RS \\$1
-. nr rst2man-indent\\n[rst2man-indent-level] \\n[an-margin]
-. nr rst2man-indent-level +1
-.\" .rstReportMargin post:
-..
-.de UNINDENT
-. RE
-.\" indent \\n[an-margin]
-.\" old: \\n[rst2man-indent\\n[rst2man-indent-level]]
-.nr rst2man-indent-level -1
-.\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
-.in \\n[rst2man-indent\\n[rst2man-indent-level]]u
-..
 .
 .nr rst2man-indent-level 0
 .
@@ -110,7 +83,7 @@ obtained by calling sasl_auxprop_getctx(3)\&.
 .SH API DESCRIPTION
 .INDENT 0.0
 .TP
-.B struct \fI\%propctx\fP *prop_new(unsigned\fI\ estimate\fP)
+.B struct  \fI\%propctx\fP  *prop_new(unsigned  estimate) 
 Create a new property context.  Probably unnecessary for application developers
 to call this at any point.
 .INDENT 7.0
@@ -127,7 +100,7 @@ a new property context: \fI\%propctx\fP
 .UNINDENT
 .INDENT 0.0
 .TP
-.B int prop_dup(struct \fI\%propctx\fP\fI\ *src_ctx\fP, struct \fI\%propctx\fP\fI\ *dst_ctx\fP)
+.B int  prop_dup(struct  \fI\%propctx\fP  *src_ctx, struct  \fI\%propctx\fP  *dst_ctx) 
 Duplicate a given property context.
 .INDENT 7.0
 .TP
@@ -145,7 +118,7 @@ SASL error code.
 .UNINDENT
 .INDENT 0.0
 .TP
-.B int prop_request(struct \fI\%propctx\fP\fI\ *ctx\fP, const char\fI\ **names\fP)
+.B int  prop_request(struct  \fI\%propctx\fP  *ctx, const  char  **names) 
 Add properties to the request list of a given context.
 .INDENT 7.0
 .TP
@@ -163,7 +136,7 @@ SASL error code
 .UNINDENT
 .INDENT 0.0
 .TP
-.B const struct \fI\%propval\fP *prop_get(struct \fI\%propctx\fP\fI\ *ctx\fP)
+.B const  struct  \fI\%propval\fP  *prop_get(struct  \fI\%propctx\fP  *ctx) 
 Fetch out the property values from a context.
 .INDENT 7.0
 .TP
@@ -179,7 +152,7 @@ a NULL\-terminated array of property values from the given context.
 .UNINDENT
 .INDENT 0.0
 .TP
-.B int prop_getnames(struct \fI\%propctx\fP\fI\ *ctx\fP, const char\fI\ **names\fP, struct \fI\%propval\fP\fI\ *vals\fP)
+.B int  prop_getnames(struct  \fI\%propctx\fP  *ctx, const  char  **names, struct  \fI\%propval\fP  *vals) 
 Fill in a (provided) array of property values based
 on a list of property names.  This implies that
 the \fBvals\fP array is at least as long as the  \fBnames\fP
@@ -202,7 +175,7 @@ number of matching properties that were found, or a SASL error code.
 .UNINDENT
 .INDENT 0.0
 .TP
-.B void prop_clear(struct \fI\%propctx\fP\fI\ *ctx\fP, int\fI\ requests\fP)
+.B void  prop_clear(struct  \fI\%propctx\fP  *ctx, int  requests) 
 Clear values and (optionally) requests from a property context.
 .INDENT 7.0
 .TP
@@ -217,7 +190,7 @@ Clear values and (optionally) requests from a property context.
 .UNINDENT
 .INDENT 0.0
 .TP
-.B void prop_erase(struct \fI\%propctx\fP\fI\ *ctx\fP, const char\fI\ *name\fP)
+.B void  prop_erase(struct  \fI\%propctx\fP  *ctx, const  char  *name) 
 Securely erase the value of a property from a context.
 .INDENT 7.0
 .TP
@@ -232,7 +205,7 @@ Securely erase the value of a property from a context.
 .UNINDENT
 .INDENT 0.0
 .TP
-.B void prop_dispose(struct \fI\%propctx\fP\fI\ **ctx\fP)
+.B void  prop_dispose(struct  \fI\%propctx\fP  **ctx) 
 Disposes of a property context and NULLifys the pointer.
 .INDENT 7.0
 .TP
@@ -245,7 +218,7 @@ Disposes of a property context and NULLifys the pointer.
 .UNINDENT
 .INDENT 0.0
 .TP
-.B int prop_format(struct \fI\%propctx\fP\fI\ *ctx\fP, const char\fI\ *sep\fP, int\fI\ seplen\fP, char\fI\ *outbuf\fP, unsigned\fI\ outmax\fP, unsigned\fI\ *outlen\fP)
+.B int  prop_format(struct  \fI\%propctx\fP  *ctx, const  char  *sep, int  seplen, char  *outbuf, unsigned  outmax, unsigned  *outlen) 
 Format the requested property names into a string.
 This not intended for use by the application (\fIonly
 by auxprop plugins\fP).
@@ -269,7 +242,7 @@ SASL error code.
 .UNINDENT
 .INDENT 0.0
 .TP
-.B int prop_set(struct \fI\%propctx\fP\fI\ *ctx\fP, const char\fI\ *name\fP, const char\fI\ *value\fP, int\fI\ vallen\fP)
+.B int  prop_set(struct  \fI\%propctx\fP  *ctx, const  char  *name, const  char  *value, int  vallen) 
 Adds a property value to the context.  \fIThis is intended for use by auxprop plugins only.\fP
 .INDENT 7.0
 .TP
@@ -291,7 +264,7 @@ SASL error code
 .UNINDENT
 .INDENT 0.0
 .TP
-.B int prop_setvals(struct \fI\%propctx\fP\fI\ *ctx\fP, const char\fI\ *name\fP, const char\fI\ **values\fP)
+.B int  prop_setvals(struct  \fI\%propctx\fP  *ctx, const  char  *name, const  char  **values) 
 Adds multiple values to a single property.  \fIThis is intended for use by auxprop plugins only\fP\&.
 .INDENT 7.0
 .TP
@@ -312,30 +285,28 @@ SASL error code
 .SH DATA STRUCTURES
 .INDENT 0.0
 .TP
-.B propval
+.B type  propval 
 A struct holding a name and its property values. A name can have zero or more values.
 .INDENT 7.0
 .TP
-.B Parameters
-.INDENT 7.0
-.IP \(bu 2
-\fBname\fP – \fBconst char *\fP\&. Name of this propval. NULL means end of list.
-.IP \(bu 2
-\fBvalues\fP – \fBconst char **\fP\&. List of string values. If property not found, values == NULL. If property found with no values, then *values == NULL
-.UNINDENT
+.B Param name
+\fBconst char *\fP\&. Name of this propval. NULL means end of list.
+.TP
+.B Param values
+\fBconst char **\fP\&. List of string values. If property not found, values == NULL. If property found with no values, then *values == NULL
 .UNINDENT
 .UNINDENT
 .INDENT 0.0
 .TP
-.B propctx
+.B type  propctx 
 A property context.
 .INDENT 7.0
 .TP
-.B Parameters
-.INDENT 7.0
-.IP \(bu 2
-\fBvalues\fP (\fI\%propval\fP *) – List of property values in this context.
-.UNINDENT
+.B Param values
+List of property values in this context.
+.TP
+.B Type values
+\fI\%propval\fP *
 .UNINDENT
 .UNINDENT
 .SH RETURN VALUE

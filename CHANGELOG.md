@@ -9,6 +9,8 @@ Versioning].
 
 ## [Unreleased] <!-- #release:date -->
 
+* Upgrade to libsasl2 v2.1.28.
+
 ## [0.1.19+2.1.27] - 2022-01-16
 
 * Add Windows support.
