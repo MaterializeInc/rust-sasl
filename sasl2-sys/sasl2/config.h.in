@@ -214,6 +214,9 @@
 /* Define to 1 if you have the `memcpy' function. */
 #undef HAVE_MEMCPY
 
+/* Define to 1 if you have the `memmem' function. */
+#undef HAVE_MEMMEM
+
 /* Define to 1 if you have the <minix/config.h> header file. */
 #undef HAVE_MINIX_CONFIG_H
 
@@ -250,8 +253,8 @@
 /* Define to 1 if you have the `select' function. */
 #undef HAVE_SELECT
 
-/* Do we have SHA256? */
-#undef HAVE_SHA256
+/* Do we have SHA512? */
+#undef HAVE_SHA512
 
 /* Include SIA Support */
 #undef HAVE_SIA
@@ -423,9 +426,6 @@
 /* Location of pwcheck socket */
 #undef PWCHECKDIR
 
-/* Define as the return type of signal handlers (`int' or `void'). */
-#undef RETSIGTYPE
-
 /* Use BerkeleyDB for SASLdb */
 #undef SASL_BERKELEYDB
 
@@ -496,10 +496,6 @@
    required in a freestanding environment). This macro is provided for
    backward compatibility; new code need not use it. */
 #undef STDC_HEADERS
-
-/* Define to 1 if you can safely include both <sys/time.h> and <time.h>. This
-   macro is obsolete. */
-#undef TIME_WITH_SYS_TIME
 
 /* Should we try to dlopen() plugins while statically compiled? */
 #undef TRY_DLOPEN_WHEN_STATIC
@@ -604,7 +600,7 @@
 /* Linking against dmalloc? */
 #undef WITH_DMALLOC
 
-/* Use internal RC4 implementation? */
+/* Use RC4 */
 #undef WITH_RC4
 
 /* Use OpenSSL DES Implementation */
@@ -627,6 +623,7 @@
 
 
 
+#define RETSIGTYPE void
 
 /* Create a struct iovec if we need one */
 #if !defined(_WIN32)
@@ -724,11 +721,6 @@ struct sockaddr_storage {
 #define NI_NUMERICHOST  2
 #define NI_NAMEREQD     4
 #define NI_NUMERICSERV  8
-#endif
-
-/* Defined in RFC 1035. max strlen is only 253 due to length bytes. */
-#ifndef MAXHOSTNAMELEN
-#define        MAXHOSTNAMELEN  255
 #endif
 
 #ifndef HAVE_SYSEXITS_H

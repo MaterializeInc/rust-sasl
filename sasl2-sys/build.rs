@@ -381,10 +381,10 @@ fn validate_headers(include_dirs: &[PathBuf]) {
     let step: u8 = lines.pop().unwrap().parse().unwrap();
     let minor: u8 = lines.pop().unwrap().parse().unwrap();
     let major: u8 = lines.pop().unwrap().parse().unwrap();
-    if major != 2 || minor != 1 || !(26..=27).contains(&step) {
+    if major != 2 || minor != 1 || !(26..=28).contains(&step) {
         panic!(
             "system libsasl is v{}.{}.{}, but this version of sasl2-sys \
-             requires v2.1.26 or v2.1.27",
+             requires v2.1.26-v2.1.28",
             major, minor, step
         );
     }

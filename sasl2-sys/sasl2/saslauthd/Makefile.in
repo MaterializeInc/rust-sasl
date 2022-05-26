@@ -246,6 +246,7 @@ EGREP = @EGREP@
 ETAGS = @ETAGS@
 EXEEXT = @EXEEXT@
 FGREP = @FGREP@
+FILECMD = @FILECMD@
 GETADDRINFOOBJS = @GETADDRINFOOBJS@
 GETNAMEINFOOBJS = @GETNAMEINFOOBJS@
 GETSUBOPT = @GETSUBOPT@
@@ -257,11 +258,6 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 IPCTYPE = @IPCTYPE@
-JAVAC = @JAVAC@
-JAVADOC = @JAVADOC@
-JAVAH = @JAVAH@
-JAVAROOT = @JAVAROOT@
-JAVA_INCLUDES = @JAVA_INCLUDES@
 LD = @LD@
 LDAP_LIBS = @LDAP_LIBS@
 LDFLAGS = @LDFLAGS@
@@ -323,6 +319,7 @@ SASL_DB_UTILS = @SASL_DB_UTILS@
 SASL_DL_LIB = @SASL_DL_LIB@
 SASL_KRB_LIB = @SASL_KRB_LIB@
 SASL_MECHS = @SASL_MECHS@
+SASL_STATIC_LIB = @SASL_STATIC_LIB@
 SASL_STATIC_LIBS = @SASL_STATIC_LIBS@
 SASL_STATIC_OBJS = @SASL_STATIC_OBJS@
 SASL_STATIC_SRCS = @SASL_STATIC_SRCS@
@@ -425,7 +422,7 @@ saslauthd_LDADD = @SASL_KRB_LIB@ \
 testsaslauthd_SOURCES = testsaslauthd.c utils.c
 testsaslauthd_LDADD = @LIB_SOCKET@
 saslcache_SOURCES = saslcache.c
-EXTRA_DIST = saslauthd.8 saslauthd.mdoc include \
+EXTRA_DIST = testsaslauthd.8 saslauthd.mdoc include \
 		  getnameinfo.c getaddrinfo.c LDAP_SASLAUTHD
 
 AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_builddir)/include -I$(top_builddir)/common -I$(top_srcdir)/common
@@ -850,17 +847,16 @@ uninstall-am: uninstall-local uninstall-sbinPROGRAMS
 .PRECIOUS: Makefile
 
 
-dist-hook: saslauthd.8
+dist-hook: saslauthd.mdoc testsaslauthd.8
 
-saslauthd.8: saslauthd.mdoc
-	nroff -mdoc $(srcdir)/saslauthd.mdoc > $(srcdir)/saslauthd.8
-
-install-data-local: saslauthd.8
+install-data-local: saslauthd.mdoc testsaslauthd.8
 	$(mkinstalldirs) $(DESTDIR)$(mandir)/man8
-	$(INSTALL_DATA) $(srcdir)/saslauthd.8 $(DESTDIR)$(mandir)/man8/saslauthd.8
+	$(INSTALL_DATA) $(srcdir)/saslauthd.mdoc $(DESTDIR)$(mandir)/man8/saslauthd.8
+	$(INSTALL_DATA) $(srcdir)/testsaslauthd.8 $(DESTDIR)$(mandir)/man8/testsaslauthd.8
 
 uninstall-local:
 	-rm -rf $(DESTDIR)$(mandir)/man8/saslauthd.8
+	-rm -rf $(DESTDIR)$(mandir)/man8/testsaslauthd.8
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

@@ -189,7 +189,7 @@ pub const SASL_SEC_NOANONYMOUS: c_uint = 16;
 pub const SASL_SEC_PASS_CREDENTIALS: c_uint = 32;
 pub const SASL_SEC_MUTUAL_AUTH: c_uint = 64;
 #[cfg(not(all(target_os = "macos", not(feature = "vendored"))))]
-pub const SASL_SEC_MAXIMUM: c_uint = 255;
+pub const SASL_SEC_MAXIMUM: c_uint = if SASL_VERSION_STEP == 28 { 65535 } else { 255 };
 #[cfg(all(target_os = "macos", not(feature = "vendored")))]
 pub const SASL_SEC_MAXIMUM: c_uint = 65535;
 

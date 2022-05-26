@@ -30,7 +30,7 @@
 //! the latest upstream release. Note that the version number of this crate is
 //! unrelated to the bundled version of libsasl2.
 //!
-//! sasl2-sys is currently bundling libsasl2 [v2.1.27].
+//! sasl2-sys is currently bundling libsasl2 [v2.1.28].
 //!
 //! When configuring the bundled library, sasl2-sys is intentionally
 //! conservative in the features it enables. All optional features are disabled
@@ -86,7 +86,7 @@
 //! [openssl-sys]: https://github.com/sfackler/rust-openssl
 //! [upstream]: https://www.cyrusimap.org/sasl
 //! [upstream-platforms]: https://www.cyrusimap.org/sasl/sasl/installation.html#supported-platforms
-//! [v2.1.27]: https://github.com/cyrusimap/cyrus-sasl/releases/tag/cyrus-sasl-2.1.27
+//! [v2.1.28]: https://github.com/cyrusimap/cyrus-sasl/releases/tag/cyrus-sasl-2.1.28
 
 #[cfg(feature = "openssl-sys")]
 extern crate openssl_sys;

@@ -132,7 +132,7 @@ CRAM_FLAGS=/DOBSOLETE_CRAM_ATTR=1
 
 DIGEST_FLAGS=/D "WITH_RC4" /DOBSOLETE_DIGEST_ATTR=1
 
-SCRAM_FLAGS=/DHAVE_SHA256=1
+SCRAM_FLAGS=/DHAVE_SHA512=1
 
 saslSASLDB_objs = sasldb.obj sasldb_init.obj $(libsasldb_objs) $(common_objs)
 saslSASLDB_out = saslSASLDB.dll saslSASLDB.exp saslSASLDB.lib

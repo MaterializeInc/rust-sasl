@@ -202,7 +202,8 @@ am__v_lt_1 =
 @BUILD_LIBOBJ_TRUE@am_libobj_la_rpath =
 am__DEPENDENCIES_1 =
 libsasl2_la_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(PLUGIN_COMMON_OBJS) $(am__append_1)
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(PLUGIN_COMMON_OBJS) $(am__append_1)
 am__libsasl2_la_SOURCES_DIST = auxprop.c canonusr.c checkpw.c client.c \
 	common.c config.c external.c md5.c saslutil.c server.c \
 	seterror.c dlopen.c windlopen.c saslint.h
@@ -326,6 +327,7 @@ EGREP = @EGREP@
 ETAGS = @ETAGS@
 EXEEXT = @EXEEXT@
 FGREP = @FGREP@
+FILECMD = @FILECMD@
 GETADDRINFOOBJS = @GETADDRINFOOBJS@
 GETNAMEINFOOBJS = @GETNAMEINFOOBJS@
 GETSUBOPT = @GETSUBOPT@
@@ -337,11 +339,6 @@ INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 IPCTYPE = @IPCTYPE@
-JAVAC = @JAVAC@
-JAVADOC = @JAVADOC@
-JAVAH = @JAVAH@
-JAVAROOT = @JAVAROOT@
-JAVA_INCLUDES = @JAVA_INCLUDES@
 LD = @LD@
 LDAP_LIBS = @LDAP_LIBS@
 LDFLAGS = @LDFLAGS@
@@ -403,6 +400,7 @@ SASL_DB_UTILS = @SASL_DB_UTILS@
 SASL_DL_LIB = @SASL_DL_LIB@
 SASL_KRB_LIB = @SASL_KRB_LIB@
 SASL_MECHS = @SASL_MECHS@
+SASL_STATIC_LIB = @SASL_STATIC_LIB@
 SASL_STATIC_LIBS = @SASL_STATIC_LIBS@
 SASL_STATIC_OBJS = @SASL_STATIC_OBJS@
 SASL_STATIC_SRCS = @SASL_STATIC_SRCS@
@@ -491,7 +489,7 @@ AM_CPPFLAGS = -DLIBSASL_EXPORTS=1 -I$(top_srcdir)/include -I$(top_srcdir)/plugin
 PLUGIN_COMMON_OBJS = $(top_builddir)/common/libplugin_common.la
 EXTRA_DIST = windlopen.c dlopen.c staticopen.h NTMakefile
 EXTRA_LIBRARIES = libsasl2.a
-noinst_LIBRARIES = @SASL_STATIC_LIBS@
+noinst_LIBRARIES = @SASL_STATIC_LIB@
 libsasl2_a_SOURCES = 
 BUILT_SOURCES = $(SASL_STATIC_SRCS)
 @WINDOWS_FALSE@DLOPEN_C = dlopen.c
@@ -505,8 +503,8 @@ libobj_la_SOURCES =
 libobj_la_LIBADD = $(LTLIBOBJS)
 libsasl2_la_SOURCES = $(common_sources) $(common_headers)
 libsasl2_la_LDFLAGS = -version-info $(sasl_version) -no-undefined
-libsasl2_la_LIBADD = $(SASL_DL_LIB) $(LIB_SOCKET) $(LIB_DOOR) \
-	$(PLUGIN_COMMON_OBJS) $(am__append_1)
+libsasl2_la_LIBADD = $(SASL_DL_LIB) $(SASL_STATIC_LIBS) $(LIB_SOCKET) \
+	$(LIB_DOOR) $(PLUGIN_COMMON_OBJS) $(am__append_1)
 @MACOSX_TRUE@framedir = /Library/Frameworks/SASL2.framework
 all: $(BUILT_SOURCES)
 	$(MAKE) $(AM_MAKEFLAGS) all-am
