@@ -13,8 +13,8 @@
 ```toml
 # Cargo.toml
 [dependencies]
-sasl2-sys = "0.1.19+2.1.27"
+sasl2-sys = "0.1.20"
 ```
 
 [Cyrus SASL]: https://www.cyrusimap.org/sasl/
-[docs]: https://docs.rs/sasl2-sys/0.1.19+2.1.27/sasl2-sys
+[docs]: https://docs.rs/sasl2-sys/0.1.20/sasl2-sys

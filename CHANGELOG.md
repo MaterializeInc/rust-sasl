@@ -9,6 +9,8 @@ Versioning].
 
 ## [Unreleased] <!-- #release:date -->
 
+## [0.1.20] - 2022-05-26
+
 * Upgrade to libsasl2 v2.1.28.
 
 ## [0.1.19+2.1.27] - 2022-01-16
@@ -156,7 +158,8 @@ Versioning].
 Initial release.
 
 <!-- #release:next-url -->
-[Unreleased]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.19+2.1.27...HEAD
+[Unreleased]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.20...HEAD
+[0.1.20]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.19+2.1.27...v0.1.20
 [0.1.19+2.1.27]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.18...v0.1.19+2.1.27
 [0.1.18]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.17...v0.1.18
 [0.1.17]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.16...v0.1.17
