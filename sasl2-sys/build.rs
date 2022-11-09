@@ -184,7 +184,7 @@ fn build_sasl(metadata: &Metadata) {
         // libresolv does not exist on BSD platforms; the relevant functions are
         // part of libc instead.
         if !is_bsd {
-            println!("cargo:rustc-link-lib=resolv")
+            //println!("cargo:rustc-link-lib=resolv")
         }
     }
 }
