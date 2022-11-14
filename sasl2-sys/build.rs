@@ -83,7 +83,7 @@ fn build_sasl(metadata: &Metadata) {
     // CFLAGS too.
     cflags += " -fPIC";
     let compiler = cc::Build::new().get_compiler();
-    let CC = compiler.path();
+    let compiler_path = compiler.path();
 
     let mut configure_args = vec![
         format!("--prefix={}", install_dir.display()),
@@ -115,7 +115,7 @@ fn build_sasl(metadata: &Metadata) {
         "--with-pic".into(),
         format!("CPPFLAGS={}", cppflags),
         format!("CFLAGS={}", cflags),
-        format!("CC={}", CC.to_str().unwrap_or_default()),
+        format!("CC={}", compiler_path.to_str().unwrap_or_default()),
     ];
     if metadata.target.contains("darwin") {
         configure_args.push("--disable-macos-framework".into());
@@ -124,11 +124,11 @@ fn build_sasl(metadata: &Metadata) {
         configure_args.push(format!("--build={}", metadata.host));
         configure_args.push(format!("--host={}", metadata.target));
     }
-    cmd(src_dir.join("configure"), &configure_args)
-        .dir(&src_dir)
-        .env("ac_cv_gssapi_supports_spnego", "yes")
-        .run()
-        .expect("configure failed");
+    let mut cmd = cmd(src_dir.join("configure"), &configure_args).dir(&src_dir);
+    if metadata.host != metadata.target {
+        cmd = cmd.env("ac_cv_gssapi_supports_spnego", "yes");
+    }
+    cmd.run().expect("configure failed");
 
     let is_bsd = metadata.host.contains("dragonflybsd")
         || metadata.host.contains("freebsd")
