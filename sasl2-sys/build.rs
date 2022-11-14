@@ -82,6 +82,8 @@ fn build_sasl(metadata: &Metadata) {
     // plugins into the main library archive, so we need to request PIC in
     // CFLAGS too.
     cflags += " -fPIC";
+    let compiler = cc::Build::new().get_compiler();
+    let compiler_path = compiler.path();
 
     let mut configure_args = vec![
         format!("--prefix={}", install_dir.display()),
@@ -113,17 +115,20 @@ fn build_sasl(metadata: &Metadata) {
         "--with-pic".into(),
         format!("CPPFLAGS={}", cppflags),
         format!("CFLAGS={}", cflags),
+        format!("CC={}", compiler_path.to_str().unwrap_or_default()),
     ];
     if metadata.target.contains("darwin") {
         configure_args.push("--disable-macos-framework".into());
     }
     if metadata.host != metadata.target {
+        configure_args.push(format!("--build={}", metadata.host));
         configure_args.push(format!("--host={}", metadata.target));
     }
-    cmd(src_dir.join("configure"), &configure_args)
-        .dir(&src_dir)
-        .run()
-        .expect("configure failed");
+    let mut cmd = cmd(src_dir.join("configure"), &configure_args).dir(&src_dir);
+    if metadata.host != metadata.target {
+        cmd = cmd.env("ac_cv_gssapi_supports_spnego", "yes");
+    }
+    cmd.run().expect("configure failed");
 
     let is_bsd = metadata.host.contains("dragonflybsd")
         || metadata.host.contains("freebsd")
@@ -183,7 +188,7 @@ fn build_sasl(metadata: &Metadata) {
         println!("cargo:rustc-link-lib=static=krb5support");
         // libresolv does not exist on BSD platforms; the relevant functions are
         // part of libc instead.
-        if !is_bsd {
+        if !is_bsd && metadata.host == metadata.target {
             println!("cargo:rustc-link-lib=resolv")
         }
     }
