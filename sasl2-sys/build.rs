@@ -158,9 +158,16 @@ fn build_sasl(metadata: &Metadata) {
 
     validate_headers(&[install_dir.join("include")]);
 
+    let mut lib_dir = install_dir.join("lib");
+    if !lib_dir.exists() {
+        lib_dir = install_dir.join("lib64");
+    }
+    if !lib_dir.exists() {
+        panic!("The directory for the compiled result of the sasl2 library does not exist where it is expected: {}", lib_dir.display())
+    }
     println!(
         "cargo:rustc-link-search=native={}",
-        install_dir.join("lib").display(),
+        lib_dir.display(),
     );
     println!("cargo:rustc-link-lib=static={}", LIBRARY_NAME);
     println!("cargo:root={}", install_dir.display());
