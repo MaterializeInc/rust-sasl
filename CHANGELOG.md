@@ -9,6 +9,11 @@ Versioning].
 
 ## [Unreleased] <!-- #release:date -->
 
+* Ignore the `CONFIG_SITE` environment variable when running configuration.
+  Site-specific configuration is generally not relevant when building with
+  Cargo and can lead to installations that are not laid out in the way
+  this crate's build script expects. See [#49] for details.
+
 ## [0.1.21] - 2024-05-13
 
 * Incorporate unreleased patch from upstream to fix the handling of time.h
@@ -197,6 +202,7 @@ Initial release.
 [#34]: https://github.com/MaterializeInc/rust-sasl/issues/34
 [#36]: https://github.com/MaterializeInc/rust-sasl/issues/36
 [#40]: https://github.com/MaterializeInc/rust-sasl/issues/40
+[#49]: https://github.com/MaterializeInc/rust-sasl/pull/49
 
 [@pbor]: https://github.com/pbor
 [@sandhose]: https://github.com/sandhose

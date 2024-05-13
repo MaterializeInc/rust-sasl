@@ -122,6 +122,7 @@ fn build_sasl(metadata: &Metadata) {
     }
     cmd(src_dir.join("configure"), &configure_args)
         .dir(&src_dir)
+        .env_remove("CONFIG_SITE")
         .run()
         .expect("configure failed");
 
