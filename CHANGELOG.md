@@ -9,6 +9,9 @@ Versioning].
 
 ## [Unreleased] <!-- #release:date -->
 
+* Incorporate unreleased patch from upstream to fix the handling of time.h
+  header inclusions. This fixes compliation with GCC 14+.
+
 ## [0.1.20] - 2022-05-26
 
 * Upgrade to libsasl2 v2.1.28.

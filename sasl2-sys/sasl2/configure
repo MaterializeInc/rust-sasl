@@ -22174,6 +22174,12 @@ then :
   printf "%s\n" "#define HAVE_SYSLOG_H 1" >>confdefs.h
 
 fi
+ac_fn_c_check_header_compile "$LINENO" "time.h" "ac_cv_header_time_h" "$ac_includes_default"
+if test "x$ac_cv_header_time_h" = xyes
+then :
+  printf "%s\n" "#define HAVE_TIME_H 1" >>confdefs.h
+
+fi
 ac_fn_c_check_header_compile "$LINENO" "unistd.h" "ac_cv_header_unistd_h" "$ac_includes_default"
 if test "x$ac_cv_header_unistd_h" = xyes
 then :
