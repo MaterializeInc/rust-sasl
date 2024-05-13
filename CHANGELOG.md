@@ -9,6 +9,8 @@ Versioning].
 
 ## [Unreleased] <!-- #release:date -->
 
+## [0.1.21] - 2024-05-13
+
 * Incorporate unreleased patch from upstream to fix the handling of time.h
   header inclusions. This fixes compliation with GCC 14+.
 
@@ -161,7 +163,8 @@ Versioning].
 Initial release.
 
 <!-- #release:next-url -->
-[Unreleased]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.20...HEAD
+[Unreleased]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.21...HEAD
+[0.1.21]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.20...v0.1.21
 [0.1.20]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.19+2.1.27...v0.1.20
 [0.1.19+2.1.27]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.18...v0.1.19+2.1.27
 [0.1.18]: https://github.com/MaterializeInc/rust-sasl/compare/v0.1.17...v0.1.18
