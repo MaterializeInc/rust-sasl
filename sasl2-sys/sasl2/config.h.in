@@ -381,6 +381,8 @@
 /* Define to 1 if you have the <ws2tcpip.h> header file. */
 #undef HAVE_WS2TCPIP_H
 
+#undef HAVE_TIME_H
+
 /* Should we keep handle to DB open in SASLDB plugin? */
 #undef KEEP_DB_OPEN
 

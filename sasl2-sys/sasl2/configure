@@ -2945,6 +2945,7 @@ as_fn_append ac_header_c_list " unistd.h unistd_h HAVE_UNISTD_H"
 as_fn_append ac_header_c_list " wchar.h wchar_h HAVE_WCHAR_H"
 as_fn_append ac_header_c_list " minix/config.h minix_config_h HAVE_MINIX_CONFIG_H"
 as_fn_append ac_header_c_list " sys/time.h sys_time_h HAVE_SYS_TIME_H"
+as_fn_append ac_header_c_list " time.h time_h HAVE_TIME_H"
 
 # Auxiliary files required by this configure script.
 ac_aux_files="ltmain.sh compile missing install-sh config.guess config.sub"
